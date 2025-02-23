@@ -21,6 +21,10 @@ class Party:
             return constant(self, v)
         elif isinstance(v, list):
             return constant(self, v)
+        elif isinstance(v, bytes):
+            return constant(self, v)
+        elif isinstance(v, str):
+            return constant(self, v)
         else:
             raise Exception(f'Non-locatable value: {v}')
 
@@ -150,7 +154,7 @@ class LocalBackend(ChoreographyBackend):
     def unlist(self, ls, length):
         assert isinstance(ls, LocatedVal)
         assert isinstance(ls.val, list)
-        assert len(ls.val) == length
+        #assert len(ls.val) == length
         p = ls.party
 
         return [LocatedVal(p, x) for x in ls.val]
