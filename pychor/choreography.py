@@ -44,6 +44,15 @@ class LocatedVal:
     def __str__(self):
         return f'{self.val}@{self.party.name}'
 
+    def __add__(self, other):
+        return cc.locally(self.party, lambda x, y: x + y, self, other)
+
+    def __sub__(self, other):
+        return cc.locally(self.party, lambda x, y: x - y, self, other)
+
+    def __mul__(self, other):
+        return cc.locally(self.party, lambda x, y: x * y, self, other)
+
     __repr__ = __str__
 
     def unlist(self, length):
