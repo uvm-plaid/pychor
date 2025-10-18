@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from collections import defaultdict
 from functools import wraps
+from typing import Set
 import socket
 import time
 
@@ -15,7 +16,7 @@ class Party:
     def __rmatmul__(self, v):
         if callable(v):
             def wrapped(*args, **kwargs):
-                return cc.locally(self, v, *args, **kwargs)
+                return cc.locally({self}, v, *args, **kwargs)
             return wrapped
         elif isinstance(v, int):
             return constant(self, v)
@@ -30,28 +31,27 @@ class Party:
 
 @dataclass(frozen=True)
 class LocatedVal:
-    party: str
+    parties: Set[str]
     val: any
     note: str = None
 
     def with_note(self, the_note):
-        return LocatedVal(self.party, self.val, the_note)
+        return LocatedVal(self.parties, self.val, the_note)
 
-    def __rshift__(self, party_to):
-        """Send the located value from its current location to party_to."""
-        return cc.send(party_to, self)
+    def send(self, src, dest):
+        cc.send(src, dest, self)
 
     def __str__(self):
-        return f'{self.val}@{self.party.name}'
+        return f'{self.val}@{self.parties}'
 
     def __add__(self, other):
-        return cc.locally(self.party, lambda x, y: x + y, self, other)
+        return cc.locally(lambda x, y: x + y, self, other)
 
     def __sub__(self, other):
-        return cc.locally(self.party, lambda x, y: x - y, self, other)
+        return cc.locally(lambda x, y: x - y, self, other)
 
     def __mul__(self, other):
-        return cc.locally(self.party, lambda x, y: x * y, self, other)
+        return cc.locally(lambda x, y: x * y, self, other)
 
     __repr__ = __str__
 
@@ -105,21 +105,16 @@ class LocalBackend(ChoreographyBackend):
     def __init__(self, emit_sequence = False):
         self.views = defaultdict(list)
 
-        # Structures to track simulated total time
-        self.clocks = defaultdict(int)
-        self.cumulative_latency = defaultdict(int)
-        self.latency = 20/1000 # 20 milliseconds of latency
-
         # Emit sequence diagram?
         self.emit_sequence = emit_sequence
 
-    def send(self, party_to, lv):
+    def send(self, party_from, party_to, lv):
         assert isinstance(lv, LocatedVal)
         assert isinstance(party_to, Party)
 
-        party_from = lv.party
-        val = self.unwrap(lv, party_from)
+        val = self.unwrap(lv, {party_from})
         self.views[party_to].append(val)
+        lv.parties.add(party_to)
 
         val_str = str(val)
         if len(val_str) > 10:
@@ -130,32 +125,19 @@ class LocalBackend(ChoreographyBackend):
 
         self.emit_to_sequence(f'{party_from.name} -> {party_to.name} : {val_str}')
 
-        # Update clocks
-        new_clock = max(self.clocks[party_to], self.clocks[party_from]) + self.latency
-        self.clocks[party_to] = new_clock
-        self.clocks[party_from] = new_clock
-        self.cumulative_latency[party_to] += self.latency
-        self.cumulative_latency[party_from] += self.latency
+    def locally(self, f, *args, **kwargs):
+        #print('local', f, args)
+        #assert isinstance(parties, set)
 
-        return LocatedVal(party_to, val)
+        new_args, new_parties = get_val(args)
+        #new_kwargs, new_parties_k = get_val(kwargs)
+        output = f(*new_args)#, **new_kwargs)
 
-    def locally(self, party, f, *args, **kwargs):
-        assert isinstance(party, Party)
-
-        new_args = [get_val(lv, party) for lv in args]
-        new_kwargs = {x: get_val(lv, party) for x, lv in kwargs}
-
-        start_time = time.process_time()
-        output = f(*new_args, **new_kwargs)
-        elapsed_time = time.process_time() - start_time
-
-        self.clocks[party] += elapsed_time
-
-        return LocatedVal(party, output)
+        return LocatedVal(new_parties, output)
 
     def unwrap(self, lv, p):
         assert isinstance(lv, LocatedVal)
-        if p == lv.party:
+        if p.issubset(lv.parties):
             return lv.val
         else:
             return None
@@ -172,7 +154,7 @@ class LocalBackend(ChoreographyBackend):
         assert isinstance(ls, LocatedVal)
         assert isinstance(ls.val, tuple)
         assert len(ls.val) == length
-        p = ls.party
+        p = ls.parties
         return tuple([LocatedVal(p, x) for x in ls.val])
 
     def undict(self, d, keys):
@@ -199,12 +181,6 @@ class LocalBackend(ChoreographyBackend):
         if self.emit_sequence:
             self.emit_to_sequence('@enduml')
             self.uml_file.close()
-
-    def get_elapsed_time(self):
-        return max(self.clocks.values())
-
-    def get_cumulative_latency(self):
-        return max(self.cumulative_latency.values())
 
 class TCPBackend(ChoreographyBackend):
     def __init__(self, my_party, party_addresses):
@@ -306,6 +282,26 @@ def get_val(lv, party):
     # else:
     #     raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
 
+def get_val(lv):
+    if isinstance(lv, LocatedVal):
+        return cc.unwrap(lv, lv.parties), lv.parties
+    elif isinstance(lv, (tuple, list)):
+        vals, parties_ls = zip(*[get_val(x) for x in lv])
+        parties = set.intersection(*parties_ls)
+        return vals, parties
+    # elif isinstance(lv, (dict)):
+    #     return {get_val(k, party): get_val(v, party) for k, v in lv.items()}
+    # elif isinstance(lv, (int, float, str)):
+    #     return lv, None
+    # else:
+    #     return lv
+    else:
+        raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
+
 def constant(party, v):
     assert not isinstance(v, LocatedVal)
-    return cc.locally(party, lambda x: x, v)
+    return LocatedVal({party}, v)
+    #return cc.locally({party}, lambda x: x, v)
+
+def locally(f, *args):
+    return cc.locally(f, *args)
