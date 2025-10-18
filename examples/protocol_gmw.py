@@ -86,7 +86,6 @@ def T_G(r, s1_i, s1_j):
     return output_table
 
 def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
-
     def gen_shares(inp):
         share1 = GF_2.Random()
         share2 = inp + share1
@@ -94,10 +93,10 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
 
     def share_inputs(p1, p2, p1_wire_vals, p2_wire_vals, inputs, wires):
         for inp, wire in zip(inputs, wires):
-            share1, share2 = (gen_shares@p1)(inp).untup(2)
+            share1, share2 = pychor.locally(gen_shares, inp).untup(2)
             p1_wire_vals[wire] = share1
-            share2_r = share2.with_note('input share') >> p2
-            p2_wire_vals[wire] = share2_r
+            share2.send(p1, p2, note='input share')
+            p2_wire_vals[wire] = share2
 
     p1_wire_vals = {}
     p2_wire_vals = {}
@@ -116,16 +115,16 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
         in2_p2 = p2_wire_vals[g.in2]
 
         if g.type == 'XOR':
-            p1_wire_vals[g.out] = (add@p1)(in1_p1, in2_p1)
-            p2_wire_vals[g.out] = (add@p2)(in1_p2, in2_p2)
+            p1_wire_vals[g.out] = pychor.locally(add, in1_p1, in2_p1)
+            p2_wire_vals[g.out] = pychor.locally(add, in1_p2, in2_p2)
         elif g.type == 'AND':
-            p1_out = (GF_2.Random@p1)()
+            p1_out = p1.constant(GF_2.Random())
 
-            table = (T_G@p1)(p1_out, in1_p1, in2_p1)
-            select_bits = ((lambda a,b: [a,b])@p2)(in1_p2, in2_p2)
+            table = pychor.locally(T_G, p1_out, in1_p1, in2_p1)
+            select_bits = pychor.locally(lambda a,b: [a,b], in1_p2, in2_p2)
 
             p1_wire_vals[g.out] = p1_out
-            p2_wire_vals[g.out] = protocol_ot.ot(select_bits, table)
+            p2_wire_vals[g.out] = protocol_ot.ot(p1, p2, select_bits, table)
         else:
             raise Exception('Unknown gate type', g.type)
 
@@ -136,11 +135,12 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
         share_p1 = p1_wire_vals[wire]
         share_p2 = p2_wire_vals[wire]
 
-        share_p1_r = share_p1.with_note('output share') >> p2
-        share_p2_r = share_p2.with_note('output share') >> p1
+        share_p1.send(p1, p2, note='output share')
+        share_p2.send(p2, p1, note='output share')
+        result = share_p1 + share_p2
 
-        p1_outputs.append((add@p1)(share_p1, share_p2_r))
-        p2_outputs.append((add@p2)(share_p2, share_p1_r))
+        p1_outputs.append(result)
+        p2_outputs.append(result)
 
     return p1_outputs, p2_outputs
 
@@ -149,12 +149,12 @@ def run_gmw(p1, p2):
         adder_txt = f.read()
     adder = parse_circuit(adder_txt)
 
-    p1_inputs = [pychor.constant(p1, x) for x in GF_2(int_to_bitstring(5, 64))]
-    p2_inputs = [pychor.constant(p2, x) for x in GF_2(int_to_bitstring(6, 64))]
+    p1_inputs = [p1.constant(x) for x in GF_2(int_to_bitstring(5, 64))]
+    p2_inputs = [p2.constant(x) for x in GF_2(int_to_bitstring(6, 64))]
 
     p1_out, p2_out = gmw(p1, p2, p1_inputs, p2_inputs, adder)
-    p1_result = (bitstring_to_int@p1)(p1_out)
-    p2_result = (bitstring_to_int@p2)(p2_out)
+    p1_result = pychor.locally(bitstring_to_int, p1_out)
+    p2_result = pychor.locally(bitstring_to_int, p2_out)
 
     print('RESULTS:')
     print(p1_result)
