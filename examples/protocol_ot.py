@@ -4,10 +4,7 @@ import galois
 
 GF_2 = galois.GF(2)
 
-def ot(select_bits, options):
-    sender = options.party
-    receiver = select_bits.party
-
+def ot(sender, receiver, select_bits, options):
     def gen_keys(select_bits):
         s1, s2 = select_bits
         key_pairs = [PrivateKey.generate() for _ in range(4)]
@@ -31,19 +28,19 @@ def ot(select_bits, options):
     # ==================================================
 
     # generate keys
-    row_num, saved_key, pub_keys = (gen_keys@receiver)(select_bits).untup(3)
+    row_num, saved_key, pub_keys = pychor.locally(gen_keys, select_bits).untup(3)
 
     # send public keys to sender
-    pub_keys_r = pub_keys.with_note('public keys') >> sender
+    pub_keys.send(sender, receiver, note='public keys')
 
     # encrypt the options
-    encrypted_options = (encrypt_options@sender)(pub_keys_r, options)
+    encrypted_options = pychor.locally(encrypt_options, pub_keys, options)
 
     # send them to the receiver
-    encrypted_options_r = encrypted_options.with_note('encrypted values') >> receiver
+    encrypted_options.send(sender, receiver, note='encrypted values')
 
     # decrypt the result
-    result = (decrypt_result@receiver)(row_num, saved_key, encrypted_options_r)
+    result = pychor.locally(decrypt_result, row_num, saved_key, encrypted_options)
 
     return result
 
@@ -52,9 +49,9 @@ if __name__ == '__main__':
     sender = pychor.Party('sender')
 
     with pychor.LocalBackend(emit_sequence=True) as b:
-        select_bits = pychor.constant(receiver, GF_2([1, 1]))
-        options = pychor.constant(sender, GF_2([0, 0, 0, 1]))
-        result = ot(select_bits, options)
+        select_bits = receiver.constant(GF_2([1, 1]))
+        options = sender.constant(GF_2([0, 0, 0, 1]))
+        result = ot(sender, receiver, select_bits, options)
         print('result:', result)
         print('views:')
         for k, vs in b.views.items():
