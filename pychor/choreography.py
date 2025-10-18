@@ -13,10 +13,10 @@ cc = None
 class Party:
     name: str
 
-    def __rmatmul__(self, v):
+    def constant(self, v):
         if callable(v):
             def wrapped(*args, **kwargs):
-                return cc.locally({self}, v, *args, **kwargs)
+                return cc.locally(v, *args, **kwargs)
             return wrapped
         elif isinstance(v, int):
             return constant(self, v)
@@ -27,7 +27,12 @@ class Party:
         elif isinstance(v, str):
             return constant(self, v)
         else:
-            raise Exception(f'Non-locatable value: {v}')
+            return constant(self, v)
+        # else:
+        #     raise Exception(f'Non-locatable value: {v}')
+
+    def __rmatmul__(self, v):
+        return self.constant(v)
 
 @dataclass(frozen=True)
 class LocatedVal:
@@ -35,11 +40,8 @@ class LocatedVal:
     val: any
     note: str = None
 
-    def with_note(self, the_note):
-        return LocatedVal(self.parties, self.val, the_note)
-
-    def send(self, src, dest):
-        cc.send(src, dest, self)
+    def send(self, src, dest, note=None):
+        cc.send(src, dest, self, note)
 
     def __str__(self):
         return f'{self.val}@{self.parties}'
@@ -68,7 +70,7 @@ class LocatedVal:
         return cc.undict(self, keys)
 
 class ChoreographyBackend:
-    def send(self, p: Party, lv: LocatedVal) -> LocatedVal:
+    def send(self, p: Party, lv: LocatedVal, note: str) -> LocatedVal:
         """Send a located value to party p."""
         pass
 
@@ -108,20 +110,21 @@ class LocalBackend(ChoreographyBackend):
         # Emit sequence diagram?
         self.emit_sequence = emit_sequence
 
-    def send(self, party_from, party_to, lv):
+    def send(self, party_from, party_to, lv, note=None):
         assert isinstance(lv, LocatedVal)
+        assert isinstance(party_from, Party)
         assert isinstance(party_to, Party)
 
         val = self.unwrap(lv, {party_from})
-        self.views[party_to].append(val)
+        #self.views[party_to].append(val)
         lv.parties.add(party_to)
 
         val_str = str(val)
         if len(val_str) > 10:
             val_str = val_str[:10] + '...'
 
-        if lv.note is not None:
-            val_str = f'{lv.note} ({val_str})'
+        if note is not None:
+            val_str = f'{note} ({val_str})'
 
         self.emit_to_sequence(f'{party_from.name} -> {party_to.name} : {val_str}')
 
@@ -133,7 +136,7 @@ class LocalBackend(ChoreographyBackend):
         #new_kwargs, new_parties_k = get_val(kwargs)
         output = f(*new_args)#, **new_kwargs)
 
-        return LocatedVal(new_parties, output)
+        return LocatedVal(new_parties.copy(), output)
 
     def unwrap(self, lv, p):
         assert isinstance(lv, LocatedVal)
@@ -148,14 +151,14 @@ class LocalBackend(ChoreographyBackend):
         #assert len(ls.val) == length
         p = ls.party
 
-        return [LocatedVal(p, x) for x in ls.val]
+        return [LocatedVal(p.copy(), x) for x in ls.val]
 
     def untup(self, ls, length):
         assert isinstance(ls, LocatedVal)
         assert isinstance(ls.val, tuple)
         assert len(ls.val) == length
         p = ls.parties
-        return tuple([LocatedVal(p, x) for x in ls.val])
+        return tuple([LocatedVal(p.copy(), x) for x in ls.val])
 
     def undict(self, d, keys):
         assert isinstance(d, LocatedVal)
@@ -163,7 +166,7 @@ class LocalBackend(ChoreographyBackend):
         assert d.val.keys() == keys
         p = d.party
 
-        return {k: LocatedVal(p, x) for k, x in d.val.items()}
+        return {k: LocatedVal(p.copy(), x) for k, x in d.val.items()}
 
     def emit_to_sequence(self, string):
         if self.emit_sequence:
