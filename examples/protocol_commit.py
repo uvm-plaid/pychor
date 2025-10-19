@@ -9,15 +9,15 @@ class Commitment:
         self.sender = sender
         self.receiver = receiver
 
-        hash_val = (self.hash_value@sender)(value) # TODO: NONCE!
-        self.hash_val_r = hash_val.with_note('hash of committed value') >> receiver
+        self.hash_val = pychor.locally(self.hash_value, value) # TODO: NONCE!
+        self.hash_val.send(sender, receiver, note='hash of committed value')
         self.value = value
 
     def open(self):
-        value_r = self.value.with_note('original committed value') >> self.receiver
-        re_hash_val = (self.hash_value@self.receiver)(value_r)
-        result = ((lambda a,b: a == b)@self.receiver)(self.hash_val_r, re_hash_val)
-        return result, value_r
+        self.value.send(self.sender, self.receiver, note='original committed value')
+        re_hash_val = pychor.locally(self.hash_value, self.value)
+        result = self.hash_val == re_hash_val
+        return result
 
 
 if __name__ == '__main__':
