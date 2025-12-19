@@ -55,15 +55,21 @@ class LocatedVal:
 
     def __add__(self, other):
         return cc.locally(lambda x, y: x + y, self, other)
+    __radd__ = __add__
 
     def __sub__(self, other):
         return cc.locally(lambda x, y: x - y, self, other)
+    def __rsub__(self, other):
+        return cc.locally(lambda x, y: y - x, self, other)
 
     def __mul__(self, other):
         return cc.locally(lambda x, y: x * y, self, other)
+    __rmul__ = __mul__
 
     def __truediv__(self, other):
         return cc.locally(lambda x, y: x / y, self, other)
+    def __rtruediv__(self, other):
+        return cc.locally(lambda x, y: y / x, self, other)
 
     __repr__ = __str__
 
