@@ -4,6 +4,7 @@ from functools import wraps
 from typing import Set
 import socket
 import time
+from functools import wraps
 
 from . import object_stream
 
@@ -34,11 +35,17 @@ class Party:
     def __rmatmul__(self, v):
         return self.constant(v)
 
+    def __repr__(self):
+        return self.name
+
 @dataclass(frozen=True)
 class LocatedVal:
     parties: Set[str]
     val: any
     note: str = None
+
+    def __post_init__(self):
+        assert len(self.parties) > 0
 
     def send(self, src, dest, note=None):
         cc.send(src, dest, self, note)
@@ -55,6 +62,9 @@ class LocatedVal:
     def __mul__(self, other):
         return cc.locally(lambda x, y: x * y, self, other)
 
+    def __truediv__(self, other):
+        return cc.locally(lambda x, y: x / y, self, other)
+
     __repr__ = __str__
 
     def unlist(self, length):
@@ -68,6 +78,17 @@ class LocatedVal:
     def undict(self, keys):
         """Un-structure a located dict into a dict of located values."""
         return cc.undict(self, keys)
+
+    def only(self, parties):
+        """Limit a located value to a subset of its owners."""
+        if isinstance(parties, Party):
+            assert parties in self.parties
+            return LocatedVal({parties}, self.val, self.note)
+        elif isinstance(parties, (list, set)):
+            assert parties in self.parties
+            return LocatedVal(set(parties), self.val, self.note)
+        else:
+            raise Exception('failure')
 
 class ChoreographyBackend:
     def send(self, p: Party, lv: LocatedVal, note: str) -> LocatedVal:
@@ -114,6 +135,7 @@ class LocalBackend(ChoreographyBackend):
         assert isinstance(lv, LocatedVal)
         assert isinstance(party_from, Party)
         assert isinstance(party_to, Party)
+        assert party_from in lv.parties
 
         val = self.unwrap(lv, {party_from})
         #self.views[party_to].append(val)
@@ -126,7 +148,7 @@ class LocalBackend(ChoreographyBackend):
         if note is not None:
             val_str = f'{note} ({val_str})'
 
-        self.emit_to_sequence(f'{party_from.name} -> {party_to.name} : {val_str}')
+        self.emit_to_sequence(f'{party_from.name} ->> {party_to.name} : {val_str}')
 
     def locally(self, f, *args, **kwargs):
         #print('local', f, args)
@@ -148,8 +170,8 @@ class LocalBackend(ChoreographyBackend):
     def unlist(self, ls, length):
         assert isinstance(ls, LocatedVal)
         assert isinstance(ls.val, list)
-        #assert len(ls.val) == length
-        p = ls.party
+        assert len(ls.val) == length
+        p = ls.parties
 
         return [LocatedVal(p.copy(), x) for x in ls.val]
 
@@ -170,20 +192,29 @@ class LocalBackend(ChoreographyBackend):
 
     def emit_to_sequence(self, string):
         if self.emit_sequence:
-            self.uml_file.write(string + '\n')
+            # self.uml_file.write(string + '\n')
+            self.uml = self.uml + string + '\n'
 
     def __enter__(self):
         v = super().__enter__()
         if self.emit_sequence:
-            self.uml_file = open('choreography_sequence.uml', 'w')
-            self.emit_to_sequence('@startuml')
+            # self.uml_file = open('choreography_sequence.uml', 'w')
+            self.uml = ""
+            # self.emit_to_sequence('@startuml')
+            self.emit_to_sequence('sequenceDiagram')
         return v
 
     def __exit__(self, exception_type, exception_value, traceback):
         super().__exit__(exception_type, exception_value, traceback)
+        # if self.emit_sequence:
+        #     self.emit_to_sequence('@enduml')
+        #     self.uml_file.close()
         if self.emit_sequence:
-            self.emit_to_sequence('@enduml')
-            self.uml_file.close()
+            print('==================================================')
+            print('UML Sequence Diagram:')
+            print(self.uml)
+            print('==================================================')
+
 
 class TCPBackend(ChoreographyBackend):
     def __init__(self, my_party, party_addresses):
@@ -271,31 +302,34 @@ class TCPBackend(ChoreographyBackend):
         else:
             return tuple([LocatedVal(p, None) for _ in range(length)])
 
-def get_val(lv, party):
-    if isinstance(lv, LocatedVal):
-        return cc.unwrap(lv, party)
-    elif isinstance(lv, (tuple, list)):
-        return [get_val(x, party) for x in lv]
-    elif isinstance(lv, (dict)):
-        return {get_val(k, party): get_val(v, party) for k, v in lv.items()}
-    elif isinstance(lv, (int, float, str)):
-        return lv
-    else:
-        return lv
-    # else:
-    #     raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
+# def get_val(lv, party):
+#     if isinstance(lv, LocatedVal):
+#         return cc.unwrap(lv, party)
+#     elif isinstance(lv, (tuple, list)):
+#         return [get_val(x, party) for x in lv]
+#     elif isinstance(lv, (dict)):
+#         return {get_val(k, party): get_val(v, party) for k, v in lv.items()}
+#     elif isinstance(lv, (int, float, str)):
+#         return lv
+#     else:
+#         return lv
+#     # else:
+#     #     raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
 
 def get_val(lv):
     if isinstance(lv, LocatedVal):
         return cc.unwrap(lv, lv.parties), lv.parties
     elif isinstance(lv, (tuple, list)):
         vals, parties_ls = zip(*[get_val(x) for x in lv])
-        parties = set.intersection(*parties_ls)
+        parties_setlist = [p for p in parties_ls if p is not None]
+        assert len(parties_setlist) > 0, f'No party information for {lv}'
+        parties = set.intersection(*parties_setlist)
+        assert len(parties) > 0, f'No participating parties for {lv}'
         return vals, parties
     # elif isinstance(lv, (dict)):
     #     return {get_val(k, party): get_val(v, party) for k, v in lv.items()}
-    # elif isinstance(lv, (int, float, str)):
-    #     return lv, None
+    elif isinstance(lv, (int, float, str)):
+        return lv, None
     # else:
     #     return lv
     else:
@@ -308,3 +342,9 @@ def constant(party, v):
 
 def locally(f, *args):
     return cc.locally(f, *args)
+
+def local_function(func):
+    @wraps(func)
+    def localfn(*args):
+        return cc.locally(func, *args)
+    return localfn
