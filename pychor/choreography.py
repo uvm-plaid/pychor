@@ -38,6 +38,9 @@ class Party:
     def __repr__(self):
         return self.name
 
+    def view(self):
+        return cc.views[self]
+
 @dataclass(frozen=True)
 class LocatedVal:
     parties: Set[str]
@@ -144,7 +147,7 @@ class LocalBackend(ChoreographyBackend):
         assert party_from in lv.parties
 
         val = self.unwrap(lv, {party_from})
-        #self.views[party_to].append(val)
+        self.views[party_to].append(val)
         lv.parties.add(party_to)
 
         val_str = str(val)
@@ -152,7 +155,7 @@ class LocalBackend(ChoreographyBackend):
             val_str = val_str[:10] + '...'
 
         if note is not None:
-            val_str = f'{note} ({val_str})'
+            val_str = f'{val_str} ({note})'
 
         self.emit_to_sequence(f'{party_from.name} ->> {party_to.name} : {val_str}')
 
