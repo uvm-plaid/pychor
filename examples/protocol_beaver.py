@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import urllib.request
 import galois
 
-p = 2**127-1
+p = 2**31-1
 GF = galois.GF(p)
 p1 = pychor.Party('p1')
 p2 = pychor.Party('p2')
