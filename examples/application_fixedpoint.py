@@ -11,7 +11,7 @@ def encode_fixpoint(val, power):
     return int(val * 10**power)
 
 @dataclass
-class SecFp:
+class SecDec:
     s1: galois.GF
     s2: galois.GF
     power: int
@@ -20,17 +20,17 @@ class SecFp:
     def input_p1(cls, val):
         s1, s2 = share(encode_fixpoint(val, 1)).untup(2)
         s2.send(p1, p2)
-        return SecFp(s1, s2, 1)
+        return SecDec(s1, s2, 1)
 
     @classmethod
     def input_p2(cls, val):
         s1, s2 = share(encode_fixpoint(val, 1)).untup(2)
         s1.send(p2, p1)
-        return SecFp(s1, s2, 1)
+        return SecDec(s1, s2, 1)
 
     def __add__(x, y):
         assert x.power == y.power
-        return SecFp(x.s1 + y.s1,
+        return SecDec(x.s1 + y.s1,
                       x.s2 + y.s2,
                       x.power)
 
@@ -39,7 +39,7 @@ class SecFp:
         r1, r2 = protocol_mult((x.s1, x.s2),
                                (y.s1, y.s2),
                                triple)
-        return SecFp(r1, r2, x.power + y.power)
+        return SecDec(r1, r2, x.power + y.power)
 
     def reveal(self):
         self.s1.send(p1, p2)
@@ -54,8 +54,8 @@ if __name__ == '__main__':
         y_input = 4.2@p2
 
         # Create secret shares of the inputs
-        x = SecFp.input_p1(x_input)
-        y = SecFp.input_p2(y_input)
+        x = SecDec.input_p1(x_input)
+        y = SecDec.input_p2(y_input)
 
         for _ in range(20):
             multiplication_triples.append(deal_triple())
