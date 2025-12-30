@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-pip install git+ssh://git@github.com/uvm-plaid/pychor.git
+pip install pychor
 ```
 
 ## Examples
