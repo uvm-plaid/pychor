@@ -23,6 +23,8 @@ class Party:
             return wrapped
         elif isinstance(v, int):
             return constant(self, v)
+        elif isinstance(v, float):
+            return constant(self, v)
         elif isinstance(v, list):
             return constant(self, v)
         elif isinstance(v, bytes):
