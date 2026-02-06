@@ -15,6 +15,8 @@ class Party:
     name: str
 
     def constant(self, v):
+        assert cc is not None, 'No PyChor backend is running'
+
         if callable(v):
             def wrapped(*args, **kwargs):
                 return cc.locally(v, *args, **kwargs)
@@ -242,5 +244,8 @@ def locally(f, *args):
 def local_function(func):
     @wraps(func)
     def localfn(*args):
-        return cc.locally(func, *args)
+        if cc is None:
+            return func(*args)
+        else:
+            return cc.locally(func, *args)
     return localfn
