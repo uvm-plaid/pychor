@@ -56,6 +56,12 @@ class LocatedVal:
     def __str__(self):
         return f'{self.val}@{self.parties}'
 
+    def __neg__(self):
+        return cc.locally(lambda x: -x, self)
+
+    def __mod__(self, other):
+        return cc.locally(lambda x, y: x % y, self, other)
+
     def __add__(self, other):
         return cc.locally(lambda x, y: x + y, self, other)
     __radd__ = __add__
