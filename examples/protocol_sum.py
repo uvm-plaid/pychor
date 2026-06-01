@@ -108,35 +108,35 @@ def sim_sum_hybrid3(in1, result):
     return total
 
 if __name__ == '__main__':
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         in1 = 5@p1
         in2 = 3@p2
 
         result = protocol_sum(in1, in2)
         print('Protocol Result:', result)
 
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         in1 = 5@p1
         in2 = 3@p2
 
         functionality_result = functionality_sum(in1, in2)
         print('Functionality Result:', result)
 
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         in1 = 5@p1
         in2 = 3@p2
 
         sim_result = sim_sum_hybrid1(in1, in2, functionality_result)
         print('Simulator Result, Hybrid 1:', sim_result)
 
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         in1 = 5@p1
         in2 = 3@p2
 
         sim_result = sim_sum_hybrid2(in1, in2, functionality_result)
         print('Simulator Result, Hybrid 2:', sim_result)
 
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         in1 = 5@p1
         in2 = 3@p2
 
@@ -192,4 +192,3 @@ if __name__ == '__main__':
     print(stats.spearmanr(simulator_results[:, 0], simulator_results[:, 1]))
     print('Are the protocol messages correlated?')
     print(stats.spearmanr(protocol_results[:, 0], protocol_results[:, 1]))
-

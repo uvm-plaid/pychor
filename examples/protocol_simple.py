@@ -3,7 +3,7 @@ import pychor
 p1 = pychor.Party('party1')
 p2 = pychor.Party('party2')
 
-with pychor.LocalBackend(emit_sequence=True):
+with pychor.LocalBackend():
     x = 5@p1
     print('x', x)
     x.send(src=p1, dest=p2)

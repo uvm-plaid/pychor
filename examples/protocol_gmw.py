@@ -164,5 +164,5 @@ if __name__ == '__main__':
     p1 = pychor.Party('p1')
     p2 = pychor.Party('p2')
 
-    with pychor.LocalBackend(emit_sequence=True):
+    with pychor.LocalBackend():
         run_gmw(p1, p2)

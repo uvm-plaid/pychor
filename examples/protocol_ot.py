@@ -57,7 +57,7 @@ if __name__ == '__main__':
     receiver = pychor.Party('receiver')
     sender = pychor.Party('sender')
 
-    with pychor.LocalBackend(emit_sequence=True) as b:
+    with pychor.LocalBackend() as b:
         select_bits = receiver.constant(GF_2([1, 1]))
         options = sender.constant(GF_2([0, 0, 0, 1]))
         result = ot(sender, receiver, select_bits, options)
@@ -67,4 +67,3 @@ if __name__ == '__main__':
             print(k)
             for v in vs:
                 print('  ' + str(v))
-
