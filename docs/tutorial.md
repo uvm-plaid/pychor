@@ -28,7 +28,7 @@ in one Python process, which makes it useful for examples, testing, and protocol
 design.
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     print(x)
 ```
@@ -42,7 +42,7 @@ A local computation can run only where its located inputs are available. Use
 `pychor.locally` to apply an ordinary Python function to located values:
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     y = pychor.locally(lambda value: value + 1, x)
     print(y)
@@ -53,7 +53,7 @@ The result is located at the parties that could see the inputs.
 You can also locate a function at a party with the `@` operator:
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     increment_at_alice = (lambda value: value + 1) @ alice
     y = increment_at_alice(x)
@@ -66,7 +66,7 @@ For named reusable local functions, use `local_function`:
 def add_bonus(value, bonus):
     return value + bonus
 
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     y = add_bonus(x, 2)
 ```
@@ -79,7 +79,7 @@ function. Inside a backend context, it produces a located result.
 Use `send` to communicate a located value from one party to another:
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
 ```
@@ -89,7 +89,7 @@ available to multiple parties, `only` can narrow the ownership for the next
 local computation:
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
 
@@ -109,7 +109,7 @@ If a local computation returns a Python collection, PyChor can split the located
 collection into located elements:
 
 ```python
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     pair = ((lambda value: (value, value + 1)) @ alice)(5 @ alice)
     first, second = pair.untup(2)
 ```

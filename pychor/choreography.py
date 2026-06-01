@@ -161,6 +161,18 @@ class ChoreographyBackend:
     the actual execution and communication semantics.
     """
 
+    def __init__(self, parties):
+        self.parties = _validate_parties(parties)
+        self.party_set = set(self.parties)
+        self.views = defaultdict(list)
+
+    def constant(self, party: Party, v: Any) -> LocatedVal:
+        """Create a located value owned by `party`."""
+        assert not isinstance(v, LocatedVal)
+        if party not in self.party_set:
+            raise ValueError(f'Party {party} is not part of this backend')
+        return LocatedVal({party}, v)
+
     def send(
         self,
         party_from: Party,
@@ -208,8 +220,8 @@ class LocalBackend(ChoreographyBackend):
     sequence diagram syntax.
     """
 
-    def __init__(self):
-        self.views = defaultdict(list)
+    def __init__(self, parties):
+        super().__init__(parties)
 
         # Emit sequence diagram?
         self.uml = ""
@@ -243,15 +255,21 @@ class LocalBackend(ChoreographyBackend):
 
     def locally(self, f: Callable, *args: Any, **kwargs: Any) -> LocatedVal:
         """Evaluate `f` on the raw values of co-located arguments."""
-        new_args, new_parties = get_val(args)
-        #new_kwargs, new_parties_k = get_val(kwargs)
-        output = f(*new_args)#, **new_kwargs)
+        new_args, args_parties = get_val(args)
+        new_kwargs, kwargs_parties = get_val(kwargs) if kwargs else ({}, None)
+        new_parties = _intersect_party_sets(
+            [args_parties, kwargs_parties],
+            f'No participating parties for {args}',
+        )
+        output = f(*new_args, **new_kwargs)
 
         return LocatedVal(new_parties.copy(), output)
 
     def unwrap(self, lv: LocatedVal, p: Set[Party]) -> Any:
         """Return a raw value when all requested parties own it."""
         assert isinstance(lv, LocatedVal)
+        if isinstance(p, Party):
+            p = {p}
         if p.issubset(lv.parties):
             return lv.val
         else:
@@ -275,8 +293,8 @@ class LocalBackend(ChoreographyBackend):
     def undict(self, d, keys):
         assert isinstance(d, LocatedVal)
         assert isinstance(d.val, dict)
-        assert d.val.keys() == keys
-        p = d.party
+        assert set(d.val.keys()) == set(keys)
+        p = d.parties
 
         return {k: LocatedVal(p.copy(), x) for k, x in d.val.items()}
 
@@ -292,29 +310,65 @@ class LocalBackend(ChoreographyBackend):
         print('==================================================')
 
 
+def _validate_parties(parties):
+    try:
+        party_list = tuple(parties)
+    except TypeError as exc:
+        raise TypeError('parties must be an iterable of Party objects') from exc
+
+    if len(party_list) == 0:
+        raise ValueError('At least one party is required')
+    if not all(isinstance(p, Party) for p in party_list):
+        raise TypeError('parties must contain only Party objects')
+
+    party_names = [p.name for p in party_list]
+    if len(set(party_names)) != len(party_names):
+        raise ValueError('Party names must be unique')
+
+    return party_list
+
+
+def _intersect_party_sets(party_sets, error_message):
+    party_sets = [p for p in party_sets if p is not None]
+    assert len(party_sets) > 0, error_message
+    parties = set.intersection(*party_sets)
+    assert len(parties) > 0, error_message
+    return parties
+
+
 def get_val(lv):
     if isinstance(lv, LocatedVal):
         return cc.unwrap(lv, lv.parties), lv.parties
     elif isinstance(lv, (tuple, list)):
         vals, parties_ls = zip(*[get_val(x) for x in lv])
-        parties_setlist = [p for p in parties_ls if p is not None]
-        assert len(parties_setlist) > 0, f'No party information for {lv}'
-        parties = set.intersection(*parties_setlist)
-        assert len(parties) > 0, f'No participating parties for {lv}'
+        parties = _intersect_party_sets(
+            parties_ls,
+            f'No participating parties for {lv}',
+        )
         return vals, parties
-    # elif isinstance(lv, (dict)):
-    #     return {get_val(k, party): get_val(v, party) for k, v in lv.items()}
-    elif isinstance(lv, (int, float, str)):
+    elif isinstance(lv, dict):
+        vals = {}
+        parties_ls = []
+        for k, v in lv.items():
+            val, parties = get_val(v)
+            vals[k] = val
+            parties_ls.append(parties)
+        if len(parties_ls) == 0:
+            return vals, None
+        parties = _intersect_party_sets(
+            parties_ls,
+            f'No participating parties for {lv}',
+        )
+        return vals, parties
+    elif isinstance(lv, (int, float, str, bytes)):
         return lv, None
-    # else:
-    #     return lv
     else:
         raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
 
 def constant(party: Party, v: Any) -> LocatedVal:
     """Create a located value owned by `party`."""
-    assert not isinstance(v, LocatedVal)
-    return LocatedVal({party}, v)
+    assert cc is not None, 'No PyChor backend is running'
+    return cc.constant(party, v)
 
 def locally(f: Callable, *args: Any) -> LocatedVal:
     """Run `f` as a local computation in the active backend."""

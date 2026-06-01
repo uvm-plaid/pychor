@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import urllib.request
 import galois
 import protocol_ot
+from example_backend import backend
 
 GF_2 = galois.GF(2)
 
@@ -164,5 +165,5 @@ if __name__ == '__main__':
     p1 = pychor.Party('p1')
     p2 = pychor.Party('p2')
 
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2]):
         run_gmw(p1, p2)

@@ -2,6 +2,7 @@ import pychor
 from dataclasses import dataclass
 import urllib.request
 import galois
+from example_backend import backend
 
 p = 2**31-1
 GF = galois.GF(p)
@@ -69,7 +70,7 @@ def protocol_mult(x, y, triple):
     return r_1, r_2
 
 if __name__ == '__main__':
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, dealer]):
         # P1 knows the input x, and P2 knows the input y
         x_input = 3@p1
         y_input = 4@p2

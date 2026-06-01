@@ -2,6 +2,7 @@ import pychor
 from nacl.public import PrivateKey, PublicKey, Box, SealedBox
 from nacl.utils import random
 import galois
+from example_backend import backend
 
 GF_2 = galois.GF(2)
 
@@ -57,7 +58,7 @@ if __name__ == '__main__':
     receiver = pychor.Party('receiver')
     sender = pychor.Party('sender')
 
-    with pychor.LocalBackend() as b:
+    with backend(parties=[receiver, sender]) as b:
         select_bits = receiver.constant(GF_2([1, 1]))
         options = sender.constant(GF_2([0, 0, 0, 1]))
         result = ot(sender, receiver, select_bits, options)

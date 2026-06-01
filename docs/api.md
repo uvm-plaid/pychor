@@ -1,7 +1,7 @@
 # API Reference
 
-The generated reference below is limited to the main choreography API in
-`pychor/choreography.py`.
+The generated reference below covers the main choreography API and bundled
+backends.
 
 ::: pychor.choreography.Party
     options:
@@ -19,6 +19,11 @@ The generated reference below is limited to the main choreography API in
       show_root_full_path: false
 
 ::: pychor.choreography.LocalBackend
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
+::: pychor.tcp_backend.TCPBackend
     options:
       show_root_heading: true
       show_root_full_path: false

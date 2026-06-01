@@ -15,7 +15,7 @@ import pychor
 alice = pychor.Party("alice")
 bob = pychor.Party("bob")
 
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
     y = ((lambda value: value + 1) @ bob)(x.only(bob))

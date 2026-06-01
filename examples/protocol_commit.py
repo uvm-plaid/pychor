@@ -1,5 +1,6 @@
 import hashlib
 import pychor
+from example_backend import backend
 
 class Commitment:
     def hash_value(self, value):
@@ -21,10 +22,10 @@ class Commitment:
 
 
 if __name__ == '__main__':
-    with pychor.LocalBackend():
-        sender = pychor.Party('sender')
-        receiver = pychor.Party('receiver')
+    sender = pychor.Party('sender')
+    receiver = pychor.Party('receiver')
 
+    with backend(parties=[sender, receiver]):
         commitment = Commitment(sender, receiver, pychor.constant(sender, 6))
 
         print(commitment.open())

@@ -15,7 +15,7 @@ def count_heart_disease_patients(df):
 def heart_disease_crosstab(df):
     return tuple(pd.crosstab(df['exang'], df['target']).to_numpy().flatten())
 
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[p1, p2, dealer]):
     for _ in range(20):
         multiplication_triples.append(deal_triple())
 

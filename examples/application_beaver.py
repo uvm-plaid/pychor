@@ -42,7 +42,7 @@ class SecInt:
         return self.s1 + self.s2
 
 if __name__ == '__main__':
-    with pychor.LocalBackend():
+    with pychor.LocalBackend(parties=[p1, p2, dealer]):
         # P1 knows the input x, and P2 knows the input y
         x_input = 3@p1
         y_input = 4@p2

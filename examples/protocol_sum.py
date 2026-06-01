@@ -3,6 +3,7 @@ import galois
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
+from example_backend import backend
 
 GF = galois.GF(2**31-1)
 GF = galois.GF(11)
@@ -108,35 +109,35 @@ def sim_sum_hybrid3(in1, result):
     return total
 
 if __name__ == '__main__':
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, Fsum]):
         in1 = 5@p1
         in2 = 3@p2
 
         result = protocol_sum(in1, in2)
         print('Protocol Result:', result)
 
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, Fsum]):
         in1 = 5@p1
         in2 = 3@p2
 
         functionality_result = functionality_sum(in1, in2)
         print('Functionality Result:', result)
 
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, Fsum]):
         in1 = 5@p1
         in2 = 3@p2
 
         sim_result = sim_sum_hybrid1(in1, in2, functionality_result)
         print('Simulator Result, Hybrid 1:', sim_result)
 
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, Fsum]):
         in1 = 5@p1
         in2 = 3@p2
 
         sim_result = sim_sum_hybrid2(in1, in2, functionality_result)
         print('Simulator Result, Hybrid 2:', sim_result)
 
-    with pychor.LocalBackend():
+    with backend(parties=[p1, p2, Fsum]):
         in1 = 5@p1
         in2 = 3@p2
 
@@ -148,7 +149,7 @@ if __name__ == '__main__':
     print('Simulator test!')
     simulator_results = []
     for _ in range(num_runs):
-        with pychor.LocalBackend():
+        with backend(parties=[p1, p2, Fsum]):
             in1 = 5@p1
             in2 = 3@p2
 
@@ -158,7 +159,7 @@ if __name__ == '__main__':
     print('Protocol test!')
     protocol_results = []
     for _ in range(num_runs):
-        with pychor.LocalBackend():
+        with backend(parties=[p1, p2, Fsum]):
             in1 = 5@p1
             in2 = 3@p2
 

@@ -101,7 +101,7 @@ def reciprocal(x, x_reciprocal_guess):
     return x_reciprocal
 
 # if __name__ == '__main__':
-#     with pychor.LocalBackend():
+#     with pychor.LocalBackend(parties=[p1, p2, dealer]):
 #         # P1 knows the input x, and P2 knows the input y
 #         x_input = 3.1@p1
 #         y_input = 4.2@p2
@@ -140,7 +140,7 @@ def sum_age_heart_disease_patients(df):
 def count_heart_disease_patients(df):
     return len(df[df['target'] == 1])
 
-with pychor.LocalBackend():
+with pychor.LocalBackend(parties=[p1, p2, dealer]):
     for _ in range(20):
         multiplication_triples.append(deal_triple())
 
