@@ -1,0 +1,27 @@
+site_name: PyChor
+site_description: Library-based choreographic programming for Python
+site_url: https://uvm-plaid.github.io/pychor/
+repo_url: https://github.com/uvm-plaid/pychor
+repo_name: uvm-plaid/pychor
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Tutorial: tutorial.md
+  - API Reference: api.md
+
+theme:
+  name: mkdocs
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - .
+          options:
+            members_order: source
+            show_signature_annotations: true
+            show_source: false

@@ -1,7 +1,14 @@
+"""Core choreography API for PyChor.
+
+The objects in this module let a program name protocol participants, locate
+ordinary Python values at those participants, run local computations, and record
+communication between parties through a backend.
+"""
+
 from dataclasses import dataclass
 from collections import defaultdict
 from functools import wraps
-from typing import Set
+from typing import Any, Callable, Optional, Set
 import socket
 import time
 from functools import wraps
@@ -12,9 +19,26 @@ cc = None
 
 @dataclass(frozen=True)
 class Party:
+    """A named participant in a choreography.
+
+    `Party` objects are used as ownership labels for located values. The
+    expression `value @ party` locates an ordinary Python value at that party
+    when a choreography backend is active.
+
+    Args:
+        name: Human-readable party name used in representations and sequence
+            diagrams.
+    """
+
     name: str
 
-    def constant(self, v):
+    def constant(self, v: Any) -> Any:
+        """Locate a value or function at this party.
+
+        Ordinary values become `LocatedVal` objects owned by this party.
+        Callables become wrappers that execute the callable locally through the
+        active backend.
+        """
         assert cc is not None, 'No PyChor backend is running'
 
         if callable(v):
@@ -37,24 +61,44 @@ class Party:
         #     raise Exception(f'Non-locatable value: {v}')
 
     def __rmatmul__(self, v):
+        """Implement `value @ party` as shorthand for `party.constant(value)`."""
         return self.constant(v)
 
     def __repr__(self):
         return self.name
 
     def view(self):
+        """Return values sent to this party in the active backend."""
         return cc.views[self]
 
 @dataclass(frozen=True)
 class LocatedVal:
-    parties: Set[str]
-    val: any
-    note: str = None
+    """A Python value together with the parties that can currently observe it.
+
+    Located values are produced by locating constants, sending values between
+    parties, and running local computations. Arithmetic operators on located
+    values run through the active backend and produce new located values.
+
+    Args:
+        parties: Parties that currently know the underlying value.
+        val: The underlying Python value in the active backend.
+        note: Optional annotation for protocol explanations or diagrams.
+    """
+
+    parties: Set[Party]
+    val: Any
+    note: Optional[str] = None
 
     def __post_init__(self):
         assert len(self.parties) > 0
 
-    def send(self, src, dest, note=None):
+    def send(self, src: Party, dest: Party, note: Optional[str] = None) -> None:
+        """Send this located value from `src` to `dest`.
+
+        The active backend performs the communication. `LocalBackend` records
+        the transfer locally and makes the destination party an owner of the
+        value.
+        """
         cc.send(src, dest, self, note)
 
     def __str__(self):
@@ -110,16 +154,29 @@ class LocatedVal:
             raise Exception('failure')
 
 class ChoreographyBackend:
-    def send(self, p: Party, lv: LocatedVal, note: str) -> LocatedVal:
-        """Send a located value to party p."""
+    """Base context manager for choreography backends.
+
+    Entering a backend context makes it the active backend for `Party`,
+    `LocatedVal`, `locally`, and `local_function` operations. Subclasses provide
+    the actual execution and communication semantics.
+    """
+
+    def send(
+        self,
+        party_from: Party,
+        party_to: Party,
+        lv: LocatedVal,
+        note: Optional[str] = None,
+    ) -> None:
+        """Send a located value from one party to another."""
         pass
 
-    def locally(self, p: Party, f: callable, *args, **kwargs) -> any:
-        """Compute a function locally at party p."""
+    def locally(self, f: Callable, *args: Any, **kwargs: Any) -> LocatedVal:
+        """Compute a function locally using located arguments."""
         pass
 
-    def unwrap(self, lv: LocatedVal, p: Party) -> any:
-        """Unwrap a located value at party p."""
+    def unwrap(self, lv: LocatedVal, parties: Set[Party]) -> Any:
+        """Return the raw value when all requested parties can observe it."""
         pass
 
     def unlist(self, ls, length):
@@ -144,6 +201,13 @@ class ChoreographyBackend:
         cc = None
 
 class LocalBackend(ChoreographyBackend):
+    """Run a choreography in a single local Python process.
+
+    `LocalBackend` is useful for tutorials, tests, and protocol sketches. It
+    stores sent values in per-party views and records communication in Mermaid
+    sequence diagram syntax.
+    """
+
     def __init__(self):
         self.views = defaultdict(list)
 
@@ -151,7 +215,14 @@ class LocalBackend(ChoreographyBackend):
         self.uml = ""
         self.emit_to_sequence('sequenceDiagram')
 
-    def send(self, party_from, party_to, lv, note=None):
+    def send(
+        self,
+        party_from: Party,
+        party_to: Party,
+        lv: LocatedVal,
+        note: Optional[str] = None,
+    ) -> None:
+        """Record a local send and add the destination to the value owners."""
         assert isinstance(lv, LocatedVal)
         assert isinstance(party_from, Party)
         assert isinstance(party_to, Party)
@@ -170,14 +241,16 @@ class LocalBackend(ChoreographyBackend):
 
         self.emit_to_sequence(f'{party_from.name} ->> {party_to.name} : {val_str}')
 
-    def locally(self, f, *args, **kwargs):
+    def locally(self, f: Callable, *args: Any, **kwargs: Any) -> LocatedVal:
+        """Evaluate `f` on the raw values of co-located arguments."""
         new_args, new_parties = get_val(args)
         #new_kwargs, new_parties_k = get_val(kwargs)
         output = f(*new_args)#, **new_kwargs)
 
         return LocatedVal(new_parties.copy(), output)
 
-    def unwrap(self, lv, p):
+    def unwrap(self, lv: LocatedVal, p: Set[Party]) -> Any:
+        """Return a raw value when all requested parties own it."""
         assert isinstance(lv, LocatedVal)
         if p.issubset(lv.parties):
             return lv.val
@@ -208,9 +281,11 @@ class LocalBackend(ChoreographyBackend):
         return {k: LocatedVal(p.copy(), x) for k, x in d.val.items()}
 
     def emit_to_sequence(self, string):
+        """Append a line to the backend's Mermaid sequence diagram."""
         self.uml = self.uml + string + '\n'
 
     def print_sequence_diagram(self):
+        """Print the backend's recorded Mermaid sequence diagram."""
         print('==================================================')
         print('UML Sequence Diagram:')
         print(self.uml)
@@ -236,14 +311,22 @@ def get_val(lv):
     else:
         raise Exception(f'Unsupported value for local computation: {lv} : {type(lv)}')
 
-def constant(party, v):
+def constant(party: Party, v: Any) -> LocatedVal:
+    """Create a located value owned by `party`."""
     assert not isinstance(v, LocatedVal)
     return LocatedVal({party}, v)
 
-def locally(f, *args):
+def locally(f: Callable, *args: Any) -> LocatedVal:
+    """Run `f` as a local computation in the active backend."""
     return cc.locally(f, *args)
 
-def local_function(func):
+def local_function(func: Callable) -> Callable:
+    """Decorate a Python function so it becomes backend-aware.
+
+    Outside a backend context, the decorated function behaves like the original
+    function. Inside a backend context, it executes through `locally` and returns
+    a located value.
+    """
     @wraps(func)
     def localfn(*args):
         if cc is None:
