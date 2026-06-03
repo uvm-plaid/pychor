@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 
 EXAMPLES_DIR = Path(__file__).resolve().parent
-BACKENDS = ('local', 'tcp')
+BACKENDS = ('local', 'forking_tcp')
 
 
 def test_env(backend, test_index):

@@ -1,9 +1,10 @@
-"""TCP backend for running a choreography as local party processes."""
+"""TCP backends for running choreographies over object streams."""
 
 import os
 import socket
 import sys
 import time
+from collections.abc import Mapping
 from typing import Any, Callable, Optional, Set
 
 from . import object_stream
@@ -12,82 +13,47 @@ from .choreography import (
     LocatedVal,
     Party,
     _intersect_party_sets,
+    _validate_parties,
     get_val,
 )
 
 
 class TCPBackend(ChoreographyBackend):
-    """Run a choreography across forked local processes connected by TCP.
+    """Run one party of a choreography over TCP.
 
-    Parties are assigned deterministic localhost ports by their order in
-    `parties`: the first party uses `base_port`, the second uses
-    `base_port + 1`, and so on.
+    This backend does not fork. Each party should run the same choreography
+    program in a separate Python process, passing its local party as `me` and a
+    shared address map for all parties.
     """
 
     def __init__(
         self,
         parties,
-        host: str = '127.0.0.1',
-        base_port: int = 10000,
+        *,
+        me: Party,
+        addresses: Mapping[Party, tuple[str, int]],
         connect_timeout: float = 10.0,
     ):
         super().__init__(parties)
-        self.host = host
-        self.base_port = base_port
+        if not isinstance(me, Party):
+            raise TypeError('me must be a Party')
+        if me not in self.party_set:
+            raise ValueError(f'Party {me} is not part of this backend')
+
+        self.party = me
+        self.party_index = self.parties.index(me)
+        self.addresses = self._validate_addresses(addresses)
         self.connect_timeout = connect_timeout
-        self.party = None
-        self.party_index = None
         self.streams = {}
         self.server_socket = None
-        self.child_pids = []
-        self.is_child = False
 
     def __enter__(self):
-        if not hasattr(os, 'fork'):
-            raise RuntimeError('TCPBackend requires os.fork and a Unix-like platform')
-
-        self.child_pids = []
-        for party_index in range(1, len(self.parties)):
-            pid = os.fork()
-            if pid == 0:
-                self.party_index = party_index
-                self.party = self.parties[party_index]
-                self.child_pids = []
-                self.is_child = True
-                break
-            self.child_pids.append(pid)
-        else:
-            self.party_index = 0
-            self.party = self.parties[0]
-            self.is_child = False
-
         self._connect_all()
         return super().__enter__()
 
     def __exit__(self, exception_type, exception_value, traceback):
         self._close_network()
         super().__exit__(exception_type, exception_value, traceback)
-
-        if self.is_child:
-            if exception_type is None:
-                sys.stdout.flush()
-                sys.stderr.flush()
-                os._exit(0)
-            return False
-
-        failures = []
-        for pid in self.child_pids:
-            while True:
-                try:
-                    _, status = os.waitpid(pid, 0)
-                    break
-                except InterruptedError:
-                    continue
-            if status != 0:
-                failures.append((pid, status))
-
-        if exception_type is None and failures:
-            raise RuntimeError(f'TCPBackend child process failures: {failures}')
         return False
 
     def constant(self, party: Party, v: Any) -> LocatedVal:
@@ -188,7 +154,36 @@ class TCPBackend(ChoreographyBackend):
         return {k: LocatedVal(parties.copy(), values[k]) for k in keys}
 
     def _address(self, party_index):
-        return (self.host, self.base_port + party_index)
+        return self.addresses[self.parties[party_index]]
+
+    def _validate_addresses(self, addresses):
+        if not isinstance(addresses, Mapping):
+            raise TypeError('addresses must be a mapping from Party to (host, port)')
+
+        missing = [party for party in self.parties if party not in addresses]
+        if missing:
+            raise ValueError(f'addresses missing parties: {missing}')
+
+        extras = [party for party in addresses if party not in self.party_set]
+        if extras:
+            raise ValueError(f'addresses includes unknown parties: {extras}')
+
+        validated = {}
+        for party in self.parties:
+            address = addresses[party]
+            if not isinstance(address, tuple) or len(address) != 2:
+                raise TypeError(
+                    f'address for {party} must be a (host, port) tuple'
+                )
+
+            host, port = address
+            if not isinstance(host, str):
+                raise TypeError(f'host for {party} must be a string')
+            if not isinstance(port, int):
+                raise TypeError(f'port for {party} must be an int')
+            validated[party] = (host, port)
+
+        return validated
 
     def _connect_all(self):
         self.streams = {}
@@ -207,7 +202,7 @@ class TCPBackend(ChoreographyBackend):
             if not isinstance(remote_index, int):
                 stream.close()
                 raise RuntimeError('Invalid TCPBackend party handshake')
-            if remote_index >= self.party_index:
+            if not 0 <= remote_index < self.party_index:
                 stream.close()
                 raise RuntimeError('Unexpected TCPBackend party connection')
             self.streams[self.parties[remote_index]] = stream
@@ -255,3 +250,88 @@ class TCPBackend(ChoreographyBackend):
         if self.server_socket is not None:
             self.server_socket.close()
             self.server_socket = None
+
+
+class ForkingTCPBackend:
+    """Run all parties as forked local processes connected by TCP.
+
+    Parties are assigned deterministic localhost ports by their order in
+    `parties`: the first party uses `base_port`, the second uses
+    `base_port + 1`, and so on.
+    """
+
+    def __init__(
+        self,
+        parties,
+        host: str = '127.0.0.1',
+        base_port: int = 10000,
+        connect_timeout: float = 10.0,
+    ):
+        self.parties = _validate_parties(parties)
+        self.host = host
+        self.base_port = base_port
+        self.connect_timeout = connect_timeout
+        self.party = None
+        self.party_index = None
+        self.child_pids = []
+        self.is_child = False
+        self.backend = None
+
+    def __enter__(self):
+        if not hasattr(os, 'fork'):
+            raise RuntimeError(
+                'ForkingTCPBackend requires os.fork and a Unix-like platform'
+            )
+
+        self.child_pids = []
+        for party_index in range(1, len(self.parties)):
+            pid = os.fork()
+            if pid == 0:
+                self.party_index = party_index
+                self.party = self.parties[party_index]
+                self.child_pids = []
+                self.is_child = True
+                break
+            self.child_pids.append(pid)
+        else:
+            self.party_index = 0
+            self.party = self.parties[0]
+            self.is_child = False
+
+        addresses = {
+            party: (self.host, self.base_port + index)
+            for index, party in enumerate(self.parties)
+        }
+        self.backend = TCPBackend(
+            self.parties,
+            me=self.party,
+            addresses=addresses,
+            connect_timeout=self.connect_timeout,
+        )
+        return self.backend.__enter__()
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        if self.backend is not None:
+            self.backend.__exit__(exception_type, exception_value, traceback)
+
+        if self.is_child:
+            if exception_type is None:
+                sys.stdout.flush()
+                sys.stderr.flush()
+                os._exit(0)
+            return False
+
+        failures = []
+        for pid in self.child_pids:
+            while True:
+                try:
+                    _, status = os.waitpid(pid, 0)
+                    break
+                except InterruptedError:
+                    continue
+            if status != 0:
+                failures.append((pid, status))
+
+        if exception_type is None and failures:
+            raise RuntimeError(f'ForkingTCPBackend child process failures: {failures}')
+        return False
