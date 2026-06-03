@@ -130,8 +130,7 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
             raise Exception('Unknown gate type', g.type)
 
     # reconstruct outputs
-    p1_outputs = []
-    p2_outputs = []
+    outputs = []
     for wire in circuit.outputs[0]:
         share_p1 = p1_wire_vals[wire]
         share_p2 = p2_wire_vals[wire]
@@ -140,10 +139,9 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
         share_p2.send(p2, p1, note='output share')
         result = share_p1 + share_p2
 
-        p1_outputs.append(result)
-        p2_outputs.append(result)
+        outputs.append(result)
 
-    return p1_outputs, p2_outputs
+    return outputs
 
 def run_gmw(p1, p2):
     with open('adder64.txt', 'r') as f:
@@ -153,13 +151,10 @@ def run_gmw(p1, p2):
     p1_inputs = [p1.constant(x) for x in GF_2(int_to_bitstring(5, 64))]
     p2_inputs = [p2.constant(x) for x in GF_2(int_to_bitstring(6, 64))]
 
-    p1_out, p2_out = gmw(p1, p2, p1_inputs, p2_inputs, adder)
-    p1_result = pychor.locally(bitstring_to_int, p1_out)
-    p2_result = pychor.locally(bitstring_to_int, p2_out)
+    out = gmw(p1, p2, p1_inputs, p2_inputs, adder)
+    result = pychor.locally(bitstring_to_int, out)
 
-    print('RESULTS:')
-    print(p1_result)
-    print(p2_result)
+    print(result)
 
 if __name__ == '__main__':
     p1 = pychor.Party('p1')
