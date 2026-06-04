@@ -1,5 +1,4 @@
 import os
-
 import pychor
 
 
@@ -11,30 +10,39 @@ def backend(parties):
     if backend_name == 'forking_tcp':
         base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
         return pychor.ForkingTCPBackend(parties=parties, base_port=base_port)
+    if backend_name == 'forking_tcp_async':
+        base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
+        return pychor.ForkingTCPAsyncBackend(parties=parties, base_port=base_port)
     if backend_name == 'tcp':
-        return _tcp_backend(parties)
+        return _tcp_backend(parties, pychor.TCPBackend)
+    if backend_name == 'tcp_async':
+        return _tcp_backend(parties, pychor.TCPAsyncBackend)
 
     raise ValueError(
         f"Unsupported PYCHOR_BACKEND {backend_name!r}; "
-        "expected 'local', 'forking_tcp', or 'tcp'"
+        "expected 'local', 'forking_tcp', 'forking_tcp_async', 'tcp', "
+        "or 'tcp_async'"
     )
 
 
-def _tcp_backend(parties):
+def _tcp_backend(parties, backend_class):
     me_name = os.environ.get('PYCHOR_TCP_ME')
+    backend_name = os.environ.get('PYCHOR_BACKEND')
     if me_name is None:
-        raise ValueError('PYCHOR_TCP_ME is required for PYCHOR_BACKEND=tcp')
+        raise ValueError(f'PYCHOR_TCP_ME is required for PYCHOR_BACKEND={backend_name}')
 
     address_spec = os.environ.get('PYCHOR_TCP_ADDRESSES')
     if address_spec is None:
-        raise ValueError('PYCHOR_TCP_ADDRESSES is required for PYCHOR_BACKEND=tcp')
+        raise ValueError(
+            f'PYCHOR_TCP_ADDRESSES is required for PYCHOR_BACKEND={backend_name}'
+        )
 
     party_by_name = {party.name: party for party in parties}
     me = _party_by_name(party_by_name, me_name)
     addresses = _parse_addresses(party_by_name, address_spec)
     connect_timeout = float(os.environ.get('PYCHOR_TCP_CONNECT_TIMEOUT', '10.0'))
 
-    return pychor.TCPBackend(
+    return backend_class(
         parties=parties,
         me=me,
         addresses=addresses,

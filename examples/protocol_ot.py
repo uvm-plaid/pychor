@@ -58,13 +58,8 @@ if __name__ == '__main__':
     receiver = pychor.Party('receiver')
     sender = pychor.Party('sender')
 
-    with backend(parties=[receiver, sender]) as b:
+    with backend(parties=[receiver, sender]):
         select_bits = receiver.constant(GF_2([1, 1]))
         options = sender.constant(GF_2([0, 0, 0, 1]))
         result = ot(sender, receiver, select_bits, options)
         print('result:', result)
-        print('views:')
-        for k, vs in b.views.items():
-            print(k)
-            for v in vs:
-                print('  ' + str(v))

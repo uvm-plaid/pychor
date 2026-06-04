@@ -17,6 +17,9 @@ def gen_shares(secret):
     s2 = GF(secret) - s1
     return s1, s2
 
+def p1_transcript(*values):
+    return pychor.locally(lambda *items: list(items), *values).only(p1)
+
 def functionality_sum(in1, in2):
     in1.send(p1, Fsum)
     in2.send(p2, Fsum)
@@ -25,7 +28,7 @@ def functionality_sum(in1, in2):
     result.send(Fsum, p2)
     return result
 
-def protocol_sum(in1, in2):
+def protocol_sum(in1, in2, include_transcript=False):
     # Round 1: secret sharing
     p1_s1, p1_s2 = gen_shares(in1).untup(2)
     p2_s1, p2_s2 = gen_shares(in2).untup(2)
@@ -43,6 +46,8 @@ def protocol_sum(in1, in2):
     # Round 3: Add results
     total = p1_sum + p2_sum
 
+    if include_transcript:
+        return total, p1_transcript(p2_s2, p2_sum)
     return total
 
 # Assume p1 is corrupt
@@ -84,7 +89,7 @@ def sim_sum_hybrid2(in1, in2, result):
     return total
 
 # CHANGE: we remove the input of the honest party (p2)
-def sim_sum_hybrid3(in1, result):
+def sim_sum_hybrid3(in1, result, include_transcript=False):
     p1_s1, p1_s2 = gen_shares(in1).untup(2)
     # p2_s1, p2_s2 = gen_shares(in2).untup(2)
     # CHANGE: since we don't know P2's input, let's use
@@ -106,6 +111,8 @@ def sim_sum_hybrid3(in1, result):
     # CHANGE: use the functionality's result instead
     total = result
 
+    if include_transcript:
+        return total, p1_transcript(p2_s2, p2_sum)
     return total
 
 if __name__ == '__main__':
@@ -137,34 +144,42 @@ if __name__ == '__main__':
         sim_result = sim_sum_hybrid2(in1, in2, functionality_result)
         print('Simulator Result, Hybrid 2:', sim_result)
 
-    with backend(parties=[p1, p2, Fsum]):
+    with backend(parties=[p1, p2, Fsum]) as b:
         in1 = 5@p1
         in2 = 3@p2
 
-        sim_result = sim_sum_hybrid3(in1, functionality_result)
+        sim_result, transcript = sim_sum_hybrid3(
+            in1,
+            functionality_result,
+            include_transcript=True,
+        )
         print('Simulator Result, Hybrid 3:', sim_result)
-        print("P1's view:", p1.view())
+        print("P1's transcript:", b.unwrap(transcript, {p1}))
 
     num_runs = 100
     print('Simulator test!')
     simulator_results = []
     for _ in range(num_runs):
-        with backend(parties=[p1, p2, Fsum]):
+        with backend(parties=[p1, p2, Fsum]) as b:
             in1 = 5@p1
             in2 = 3@p2
 
-            sim_result = sim_sum_hybrid3(in1, functionality_result)
-            simulator_results.append(np.array(p1.view()))
+            sim_result, transcript = sim_sum_hybrid3(
+                in1,
+                functionality_result,
+                include_transcript=True,
+            )
+            simulator_results.append(np.array(b.unwrap(transcript, {p1})))
 
     print('Protocol test!')
     protocol_results = []
     for _ in range(num_runs):
-        with backend(parties=[p1, p2, Fsum]):
+        with backend(parties=[p1, p2, Fsum]) as b:
             in1 = 5@p1
             in2 = 3@p2
 
-            sim_result = protocol_sum(in1, in2)
-            protocol_results.append(np.array(p1.view()))
+            sim_result, transcript = protocol_sum(in1, in2, include_transcript=True)
+            protocol_results.append(np.array(b.unwrap(transcript, {p1})))
 
     simulator_results = np.array(simulator_results)
     print('simulator:', simulator_results.shape)

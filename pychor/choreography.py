@@ -6,7 +6,6 @@ communication between parties through a backend.
 """
 
 from dataclasses import dataclass
-from collections import defaultdict
 from functools import wraps
 from typing import Any, Callable, Optional, Set
 import socket
@@ -67,10 +66,6 @@ class Party:
     def __repr__(self):
         return self.name
 
-    def view(self):
-        """Return values sent to this party in the active backend."""
-        return cc.views[self]
-
 @dataclass(frozen=True)
 class LocatedVal:
     """A Python value together with the parties that can currently observe it.
@@ -96,12 +91,14 @@ class LocatedVal:
         """Send this located value from `src` to `dest`.
 
         The active backend performs the communication. `LocalBackend` records
-        the transfer locally and makes the destination party an owner of the
-        value.
+        the transfer in its sequence diagram and makes the destination party
+        an owner of the value.
         """
         cc.send(src, dest, self, note)
 
     def __str__(self):
+        if cc is not None:
+            return cc.format_located(self)
         return f'{self.val}@{self.parties}'
 
     def __neg__(self):
@@ -127,6 +124,22 @@ class LocatedVal:
         return cc.locally(lambda x, y: x / y, self, other)
     def __rtruediv__(self, other):
         return cc.locally(lambda x, y: y / x, self, other)
+
+    def __eq__(self, other):
+        if cc is not None:
+            return cc.compare_located(self, other, lambda x, y: x == y)
+        if not isinstance(other, LocatedVal):
+            return False
+        return (
+            self.parties == other.parties
+            and self.val == other.val
+            and self.note == other.note
+        )
+
+    def __ne__(self, other):
+        if cc is not None:
+            return cc.compare_located(self, other, lambda x, y: x != y)
+        return not self.__eq__(other)
 
     __repr__ = __str__
 
@@ -164,7 +177,6 @@ class ChoreographyBackend:
     def __init__(self, parties):
         self.parties = _validate_parties(parties)
         self.party_set = set(self.parties)
-        self.views = defaultdict(list)
 
     def constant(self, party: Party, v: Any) -> LocatedVal:
         """Create a located value owned by `party`."""
@@ -191,6 +203,11 @@ class ChoreographyBackend:
         """Return the raw value when all requested parties can observe it."""
         pass
 
+    def first(self, values) -> LocatedVal:
+        """Return the first located value under this backend's execution order."""
+        values, parties = _validate_first_values(values)
+        return LocatedVal(parties.copy(), self.unwrap(values[0], parties))
+
     def unlist(self, ls, length):
         """Un-structure a located list into a list of located values."""
         pass
@@ -202,6 +219,20 @@ class ChoreographyBackend:
     def undict(self, d, keys):
         """Un-structure a located dict into a dict of located values."""
         pass
+
+    def format_located(self, lv: LocatedVal) -> str:
+        """Format a located value for display."""
+        return f'{lv.val}@{lv.parties}'
+
+    def compare_located(self, left: LocatedVal, right: Any, op: Callable):
+        """Compare located values using the backend's equality semantics."""
+        if not isinstance(right, LocatedVal):
+            sentinel = object()
+            return False if op(sentinel, sentinel) else True
+        return op(
+            (left.parties, left.val, left.note),
+            (right.parties, right.val, right.note),
+        )
 
     def __enter__(self):
         global cc
@@ -216,8 +247,7 @@ class LocalBackend(ChoreographyBackend):
     """Run a choreography in a single local Python process.
 
     `LocalBackend` is useful for tutorials, tests, and protocol sketches. It
-    stores sent values in per-party views and records communication in Mermaid
-    sequence diagram syntax.
+    records communication in Mermaid sequence diagram syntax.
     """
 
     def __init__(self, parties):
@@ -234,14 +264,13 @@ class LocalBackend(ChoreographyBackend):
         lv: LocatedVal,
         note: Optional[str] = None,
     ) -> None:
-        """Record a local send and add the destination to the value owners."""
+        """Record a local send in the diagram and add the destination owner."""
         assert isinstance(lv, LocatedVal)
         assert isinstance(party_from, Party)
         assert isinstance(party_to, Party)
         assert party_from in lv.parties
 
         val = self.unwrap(lv, {party_from})
-        self.views[party_to].append(val)
         lv.parties.add(party_to)
 
         val_str = str(val)
@@ -336,6 +365,25 @@ def _intersect_party_sets(party_sets, error_message):
     return parties
 
 
+def _validate_first_values(values):
+    try:
+        value_list = list(values)
+    except TypeError as exc:
+        raise TypeError('first values must be an iterable of LocatedVal objects') from exc
+
+    if len(value_list) == 0:
+        raise ValueError('first requires at least one value')
+
+    if not all(isinstance(value, LocatedVal) for value in value_list):
+        raise TypeError('first values must all be LocatedVal objects')
+
+    parties = set.intersection(*[value.parties for value in value_list])
+    if len(parties) == 0:
+        raise ValueError('first values must have at least one party in common')
+
+    return value_list, parties
+
+
 def get_val(lv):
     if isinstance(lv, LocatedVal):
         return cc.unwrap(lv, lv.parties), lv.parties
@@ -373,6 +421,11 @@ def constant(party: Party, v: Any) -> LocatedVal:
 def locally(f: Callable, *args: Any) -> LocatedVal:
     """Run `f` as a local computation in the active backend."""
     return cc.locally(f, *args)
+
+def first(values) -> LocatedVal:
+    """Return a located value that resolves to the first successful candidate."""
+    assert cc is not None, 'No PyChor backend is running'
+    return cc.first(values)
 
 def local_function(func: Callable) -> Callable:
     """Decorate a Python function so it becomes backend-aware.
