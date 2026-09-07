@@ -1,26 +1,17 @@
 # API Reference
 
-The generated reference below covers the main choreography API and bundled
-backends.
+Generated reference for PyChor's public objects. Everything listed here is
+re-exported from the `pychor` package, so `pychor.Party` and
+`pychor.choreography.Party` are the same class.
 
-## TCP backends
+For the ideas behind these objects, read [Concepts](concepts.md); for choosing
+and configuring a backend, read [Backends](backends.md).
 
-`TCPBackend` runs one party in the current process. For a deployment, run the
-same program once per party and pass the local party as `me` plus an address map
-for every party:
+## Core API
 
-```python
-addresses = {
-    alice: ("10.0.0.1", 10000),
-    bob: ("10.0.0.2", 10000),
-}
-
-with pychor.TCPBackend(parties=[alice, bob], me=alice, addresses=addresses):
-    ...
-```
-
-`ForkingTCPBackend` is the localhost testing backend. It forks one local process
-per party and wraps `TCPBackend` using deterministic ports.
+The objects a choreography is written with: parties to own values, located
+values to carry them, and the three functions that run ordinary Python code at a
+party.
 
 ::: pychor.choreography.Party
     options:
@@ -31,6 +22,33 @@ per party and wraps `TCPBackend` using deterministic ports.
     options:
       show_root_heading: true
       show_root_full_path: false
+
+::: pychor.choreography.constant
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
+::: pychor.choreography.locally
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
+::: pychor.choreography.local_function
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
+::: pychor.choreography.get_val
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
+## Backends
+
+A backend decides what locating, computing, and sending mean, and is entered as
+a context manager. `ChoreographyBackend` is the interface to implement for a new
+one — see
+[Writing a custom backend](backends.md#writing-a-custom-backend).
 
 ::: pychor.choreography.ChoreographyBackend
     options:
@@ -52,17 +70,13 @@ per party and wraps `TCPBackend` using deterministic ports.
       show_root_heading: true
       show_root_full_path: false
 
-::: pychor.choreography.constant
-    options:
-      show_root_heading: true
-      show_root_full_path: false
+## Transport
 
-::: pychor.choreography.locally
-    options:
-      show_root_heading: true
-      show_root_full_path: false
+The wire format used by the TCP backends. Choreographies do not use this
+directly; it is documented for anyone implementing a backend of their own or
+auditing what travels over the network.
 
-::: pychor.choreography.local_function
+::: pychor.object_stream.ObjectStream
     options:
       show_root_heading: true
       show_root_full_path: false

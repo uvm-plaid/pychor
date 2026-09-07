@@ -8,6 +8,9 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Tutorial: tutorial.md
+  - Concepts: concepts.md
+  - Backends: backends.md
+  - Examples: examples.md
   - API Reference: api.md
 
 theme:
@@ -36,13 +39,20 @@ theme:
 markdown_extensions:
   - admonition
   - attr_list
+  - md_in_html
   - toc:
       permalink: true
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
-  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 plugins:
   - search
@@ -53,6 +63,14 @@ plugins:
           paths:
             - .
           options:
+            docstring_style: google
+            docstring_options:
+              returns_multiple_items: false
+              warn_unknown_params: true
             members_order: source
             show_signature_annotations: true
+            separate_signature: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
             show_source: false
+            heading_level: 3
