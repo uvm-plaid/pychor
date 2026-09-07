@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import galois
 import protocol_ot
-from example_backend import backend, check
+from example_backend import backend, check, print_timing_summary
 
 CIRCUIT_DIR = Path(__file__).resolve().parent
 
@@ -178,9 +178,12 @@ def main():
     p1 = pychor.Party('p1')
     p2 = pychor.Party('p2')
 
-    with backend(parties=[p1, p2]):
+    # 100 ms per message. The XOR gates are free, so the 63 oblivious transfers
+    # for the AND gates account for nearly all of the protocol's running time.
+    with backend(parties=[p1, p2], latency=0.1):
         result = run_gmw(p1, p2, a=5, b=6)
         check(result, 5 + 6, 'sum of the two inputs')
+        print_timing_summary()
         return result
 
 

@@ -44,11 +44,37 @@ def check(located, expected, label=None, tol=None):
     assert ok, f'{label or "check"}: {detail}, got {located.val}'
 
 
-def backend(parties):
+def print_timing_summary():
+    """Print the active backend's execution timing, if it keeps any.
+
+    Only `SimulationBackend` has virtual clocks. Under the TCP backends the
+    parties really are separate processes with real network latency, so there
+    is nothing to simulate and this is a no-op -- which keeps an example that
+    calls it runnable under every backend. Call it inside the `with` block,
+    while the backend is still active.
+    """
+    from pychor import choreography
+
+    if isinstance(choreography.cc, pychor.SimulationBackend):
+        choreography.cc.print_timing_summary()
+
+
+def backend(parties, latency=None):
+    """Return the backend named by `PYCHOR_BACKEND`, for the caller to enter.
+
+    Args:
+        parties: The parties of the choreography, in order.
+        latency: One-way message latency in seconds for `SimulationBackend`'s
+            virtual clocks; see `print_timing_summary`. `None` keeps the
+            library default. The TCP backends have real network latency and
+            ignore it.
+    """
     backend_name = os.environ.get('PYCHOR_BACKEND', 'simulation').lower()
 
     if backend_name == 'simulation':
-        return pychor.SimulationBackend(parties=parties)
+        if latency is None:
+            return pychor.SimulationBackend(parties=parties)
+        return pychor.SimulationBackend(parties=parties, latency=latency)
     if backend_name == 'forking_tcp':
         base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
         return pychor.ForkingTCPBackend(parties=parties, base_port=base_port)

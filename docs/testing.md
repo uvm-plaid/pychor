@@ -12,21 +12,21 @@ python -m pip install -e ".[examples,test]"
 pytest
 ```
 
-That is the everyday command. It runs **119 tests in about 50 seconds** and
+That is the everyday command. It runs **138 tests in about 50 seconds** and
 skips the 6 expensive ones. To run everything:
 
 ```bash
 pytest --runslow
 ```
 
-**125 tests in about 75 seconds.**
+**144 tests in about 75 seconds.**
 
 ## What the suite covers
 
 | File | Tests | What it checks |
 | --- | --- | --- |
 | `tests/test_examples.py` | 42 | Every example in `examples/`, under the `simulation` and `forking_tcp` backends. |
-| `tests/test_choreography.py` | 61 | The core API: ownership, where a computation runs, destructuring, operators, views, the sequence diagram. Runs in-process in well under a second. |
+| `tests/test_choreography.py` | 80 | The core API: ownership, where a computation runs, destructuring, operators, views, the sequence diagram, execution timing. Runs in-process in well under a second. |
 | `tests/test_tcp_backend.py` | 18 | `TCPBackend` and `ForkingTCPBackend` — constructor validation, and the SPMD rule that a non-owning process holds `None`. |
 | `tests/test_deployment.py` | 4 | Real deployments: one operating-system process per party over real sockets. |
 

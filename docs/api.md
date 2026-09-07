@@ -60,6 +60,11 @@ one — see
       show_root_heading: true
       show_root_full_path: false
 
+::: pychor.choreography.PartyTiming
+    options:
+      show_root_heading: true
+      show_root_full_path: false
+
 ::: pychor.tcp_backend.TCPBackend
     options:
       show_root_heading: true

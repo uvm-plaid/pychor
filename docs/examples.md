@@ -57,8 +57,8 @@ These are backend-agnostic: each runs under all three backends.
 | `protocol_mult.py` | BGW multiplication of Shamir-shared values. Multiplying shares doubles the degree of the underlying polynomial, so the parties re-share their local products and take a fixed linear combination to bring the degree back down. |
 | `protocol_ot.py` | 1-out-of-4 oblivious transfer using PyNaCl sealed boxes. The receiver learns one option and the sender learns nothing about which. A good illustration of ownership doing real work — see [Where a computation runs](concepts.md#where-a-computation-runs). |
 | `protocol_ot_mult.py` | Multiplying shared bits with oblivious transfer. Each cross term is computed by offering a two-row table masked with fresh randomness, so the mask cancels once all the terms are summed. |
-| `protocol_gmw.py` | GMW secure circuit evaluation over a Bristol-format boolean circuit, evaluating the 64-bit adder in `adder64.txt` gate by gate. XOR gates are free; each of the 63 AND gates costs one oblivious transfer. |
-| `protocol_bgw.py` | BGW evaluation of an arithmetic circuit on Shamir-shared inputs, chaining additions and multiplications so the result depends on all six parties' inputs. |
+| `protocol_gmw.py` | GMW secure circuit evaluation over a Bristol-format boolean circuit, evaluating the 64-bit adder in `adder64.txt` gate by gate. XOR gates are free; each of the 63 AND gates costs one oblivious transfer. Ends with an [execution timing](concepts.md#execution-timing) summary at 100 ms per message, which shows the AND gates dominating. |
+| `protocol_bgw.py` | BGW evaluation of an arithmetic circuit on Shamir-shared inputs, chaining additions and multiplications so the result depends on all six parties' inputs. Also ends with an execution timing summary at 100 ms per message. |
 | `protocol_sum_poly.py` | An n-party sum by additive secret sharing, in three rounds: share, sum locally, broadcast the subtotals. |
 | `protocol_sum_poly_shamir.py` | The same sum over Shamir shares. The choreography is identical; only reconstruction differs. |
 | `protocol_sum_poly_shamir_vec.py` | The Shamir sum batched over a vector of 20 secrets at once, showing that the protocol shape does not change when it carries more data. |
@@ -95,6 +95,6 @@ disjoint halves standing in for two hospitals' private records.
 
 | File | Purpose |
 | --- | --- |
-| `example_backend.py` | Selects a backend from the environment, and provides the `check` helper the examples use to assert their results. See [Writing backend-agnostic choreographies](backends.md#writing-backend-agnostic-choreographies). |
+| `example_backend.py` | Selects a backend from the environment, and provides the `check` helper the examples use to assert their results and the `print_timing_summary` helper that reports execution timing under `SimulationBackend` only. See [Writing backend-agnostic choreographies](backends.md#writing-backend-agnostic-choreographies). |
 | `shamir.py` | Standalone Shamir secret sharing over a prime field — `share`, `reconstruct`, `add`, `mult`, `sum` — with its own self-test. No PyChor dependency. |
 | `adder64.txt` | A Bristol-format 64-bit adder circuit, consumed by `protocol_gmw.py`. |

@@ -219,6 +219,59 @@ self.hash_val.send(sender, receiver, note='hash of committed value')
 You can also add Mermaid directives of your own with
 `emit_to_sequence`, which appends a raw line to the diagram.
 
+## Execution timing
+
+`SimulationBackend` also gives every party a virtual clock, so a protocol's
+communication rounds and local work show up as time. Clocks start at zero and
+advance in two ways:
+
+- **Sends.** When `a` sends to `b`, `b`'s clock becomes the later of its
+  current time and `a`'s time plus the latency of the link. A party that is
+  behind waits for the message; a party that is already ahead is not delayed.
+  The sender's clock does not change.
+- **Local computations.** `locally` — and the operators built on it — times the
+  function as it runs and adds the elapsed time to the clock of every party
+  that owns the result, since each of them would run it in a real deployment.
+
+The latency model is the `latency` argument to `SimulationBackend`. It can be a
+constant number of seconds for every pair of parties (the default is `0.1`, a
+wide-area 100 ms), a mapping from `(sender, receiver)` pairs to seconds that
+covers every ordered pair of distinct parties, or a callable
+`(sender, receiver) -> seconds`:
+
+```python
+def latency(sender, receiver):
+    return 0.1 if dealer in (sender, receiver) else 0.001   # WAN to the dealer, LAN otherwise
+
+with pychor.SimulationBackend(parties=[p1, p2, dealer], latency=latency) as backend:
+    ...
+    backend.print_timing_summary()
+```
+
+`print_timing_summary()` prints one row per party with its final clock, the
+compute and waiting time that make it up, and its message counts, followed by
+the *makespan* — the largest clock, which is how long the protocol took. For
+the choreography in the [sequence diagram](#sequence-diagrams) section:
+
+```
+==================================================
+Execution Timing:
+latency model: constant 0.1 s per message
+party      clock (s)   compute (s)      wait (s)  local ops   sent  received
+party1      0.200000      0.000000      0.200000          0      1         1
+party2      0.100004      0.000004      0.100000          1      1         1
+makespan: 0.200000 s (party1)
+==================================================
+```
+
+The same numbers are available programmatically as
+[`PartyTiming`](api.md#pychor.choreography.PartyTiming) objects in
+`backend.timing`, keyed by party. Latency is a model, but compute time is a
+measurement: it is the wall-clock time the simulating process spent in each
+local function, so it varies from run to run and machine to machine, and it
+reflects one process doing everyone's work rather than each party's own
+hardware.
+
 ## Views and security proofs
 
 A party's **view** is the ordered list of message payloads it has received.

@@ -55,7 +55,7 @@ of three backends:
 
 - **`SimulationBackend`** — runs the whole choreography in one process, playing
   every party. For design, teaching, tests, and security experiments; the only
-  backend that draws sequence diagrams.
+  backend that draws sequence diagrams and reports per-party execution timing.
 - **`ForkingTCPBackend`** — forks one local process per party and connects them
   over TCP. Confirms a protocol is genuinely executable one-party-per-process.
 - **`TCPBackend`** — one process per party across machines, for deployment.
@@ -88,8 +88,8 @@ pip install -e ".[examples,test]"
 pytest
 ```
 
-That is the everyday command: **119 tests in about 50 seconds**, skipping the 6
-expensive ones. `pytest --runslow` runs all **125 in about 75 seconds**. A
+That is the everyday command: **138 tests in about 50 seconds**, skipping the 6
+expensive ones. `pytest --runslow` runs all **144 in about 75 seconds**. A
 passing run means every protocol computed the right answer, not merely that it
 did not crash.
 
@@ -106,7 +106,7 @@ What the suite covers:
 | File | Tests | Checks |
 | --- | --- | --- |
 | `tests/test_examples.py` | 42 | Every example, under the `simulation` and `forking_tcp` backends. |
-| `tests/test_choreography.py` | 61 | The core API — ownership, where a computation runs, destructuring, operators, views. |
+| `tests/test_choreography.py` | 80 | The core API — ownership, where a computation runs, destructuring, operators, views, execution timing. |
 | `tests/test_tcp_backend.py` | 18 | Both TCP backends, including the rule that a non-owning process holds `None`. |
 | `tests/test_deployment.py` | 4 | Real deployments: one process per party over real sockets. |
 

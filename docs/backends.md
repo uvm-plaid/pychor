@@ -13,6 +13,7 @@ machines — you choose by picking which context manager to enter.
 | Real network | no | loopback TCP | yes |
 | Platform | anywhere | Unix (needs `os.fork`) | anywhere |
 | Sequence diagram | yes | no | no |
+| Execution timing | yes | no | no |
 | All parties' views readable | yes | no, only the local party's | no, only the local party's |
 | Catches illegal reads | no | yes | yes |
 | Use it for | design, teaching, tests, security experiments | checking a protocol is genuinely distributable | deployment |
@@ -43,11 +44,13 @@ The bundled examples do this by selecting the backend from the environment.
 import os
 import pychor
 
-def backend(parties):
+def backend(parties, latency=None):
     backend_name = os.environ.get('PYCHOR_BACKEND', 'simulation').lower()
 
     if backend_name == 'simulation':
-        return pychor.SimulationBackend(parties=parties)
+        if latency is None:
+            return pychor.SimulationBackend(parties=parties)
+        return pychor.SimulationBackend(parties=parties, latency=latency)
     if backend_name == 'forking_tcp':
         base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
         return pychor.ForkingTCPBackend(parties=parties, base_port=base_port)
@@ -60,6 +63,13 @@ def backend(parties):
 Every example then writes `from example_backend import backend` and
 `with backend(parties=[...])`, so the test suite can run every example under
 two different backends without editing a line of protocol code.
+
+The `latency` argument only matters to `SimulationBackend`, which uses it for
+its virtual clocks; the TCP backends have real network latency and ignore it.
+The companion `example_backend.print_timing_summary()` prints the timing
+summary under `SimulationBackend` and does nothing under the others, which is
+how `protocol_gmw.py` and `protocol_bgw.py` report their timing while staying
+runnable under every backend.
 
 The variables it reads:
 
@@ -77,20 +87,25 @@ The variables it reads:
 every party itself.
 
 ```python
-with pychor.SimulationBackend(parties=[alice, bob]) as backend:
+with pychor.SimulationBackend(parties=[alice, bob], latency=0.05) as backend:
     x = 5 @ alice
     x.send(src=alice, dest=bob)
 
     print(backend.views[bob])          # [5]
     backend.print_sequence_diagram()
+    backend.print_timing_summary()
 ```
 
 Because one process holds everything, this backend can observe the protocol as a
-whole. Two capabilities follow from that, and neither is available from the TCP
+whole. Three capabilities follow from that, and none is available from the TCP
 backends:
 
 - **Sequence diagrams.** Every send is recorded as Mermaid source in `uml`. See
   [Sequence diagrams](concepts.md#sequence-diagrams).
+- **Execution timing.** Every party has a virtual clock that sends and local
+  computations advance, so a protocol's rounds and local work show up as time
+  in `print_timing_summary()`. The latency between parties is the `latency`
+  argument. See [Execution timing](concepts.md#execution-timing).
 - **All parties' views.** `backend.views` is populated for every party, which is
   what makes executable security experiments possible. See
   [Views and security proofs](concepts.md#views-and-security-proofs).

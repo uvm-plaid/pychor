@@ -17,8 +17,10 @@ installs it as the active backend for every operation in this module; leaving th
 block uninstalls it, and located values do not outlive the block.
 """
 
+import time
 from dataclasses import dataclass
 from collections import defaultdict
+from collections.abc import Mapping
 from functools import wraps
 from typing import Any, Callable, Iterable, Optional, Set, Union
 
@@ -27,6 +29,7 @@ __all__ = [
     'LocatedVal',
     'ChoreographyBackend',
     'SimulationBackend',
+    'PartyTiming',
     'constant',
     'locally',
     'local_function',
@@ -411,6 +414,42 @@ class ChoreographyBackend:
         global cc
         cc = None
 
+@dataclass
+class PartyTiming:
+    """Virtual-clock statistics for one party under `SimulationBackend`.
+
+    `SimulationBackend` keeps one of these per party in its `timing` attribute
+    and updates it as the choreography runs. All times are in seconds. The
+    virtual clock only ever advances in two ways — a local computation charges
+    its measured execution time, or a received message arrives later than the
+    receiver's current time — so `clock == compute_time + wait_time` always
+    holds.
+
+    The compute figures are the wall-clock time the simulating process actually
+    spent running the party's local functions. They are real measurements, not
+    a cost model, so they vary from run to run and machine to machine.
+
+    Attributes:
+        clock: The party's virtual time. Starts at zero when the backend is
+            constructed.
+        compute_time: Total measured execution time of the local computations
+            this party participated in.
+        wait_time: Total time the party's clock was moved forward to wait for
+            an incoming message.
+        local_ops: Number of local computations this party participated in.
+        messages_sent: Number of messages this party sent to other parties.
+        messages_received: Number of messages this party received from other
+            parties.
+    """
+
+    clock: float = 0.0
+    compute_time: float = 0.0
+    wait_time: float = 0.0
+    local_ops: int = 0
+    messages_sent: int = 0
+    messages_received: int = 0
+
+
 class SimulationBackend(ChoreographyBackend):
     """Run a choreography in a single local Python process.
 
@@ -429,21 +468,62 @@ class SimulationBackend(ChoreographyBackend):
     `uml`, which `print_sequence_diagram` prints and which can be pasted
     directly into Mermaid-aware Markdown.
 
+    It also keeps a virtual clock for every party, so a protocol's
+    communication rounds and local work show up as time. A send advances the
+    receiver's clock to the later of its current time and the sender's time
+    plus the latency of that link; a local computation is timed as it runs and
+    charged to every participating party. `print_timing_summary` reports the
+    result per party, and `timing` holds the same numbers for programmatic use.
+
     Attributes:
         uml: The accumulated Mermaid sequence diagram source, beginning with the
             line `sequenceDiagram`.
+        timing: Maps each party to its `PartyTiming`: virtual clock, measured
+            compute time, waiting time, and message counts.
+        latency: The latency model exactly as passed to the constructor.
+
+    Args:
+        parties: An iterable of `Party` objects with unique names. At least one
+            party is required.
+        latency: One-way message latency in seconds. Either a single number
+            used for every pair of parties, a mapping from `(sender, receiver)`
+            tuples to seconds that covers every ordered pair of distinct
+            parties, or a callable `(sender, receiver) -> seconds`. Defaults to
+            `0.1`, a wide-area-network-like 100 ms.
+
+    Raises:
+        TypeError: If `latency` is not a number, mapping, or callable, or a
+            mapping value is not a number.
+        ValueError: If a latency is negative, or a mapping omits a pair of
+            parties or names a party that is not part of this backend.
 
     Example:
         ```python
-        with pychor.SimulationBackend(parties=[alice, bob]) as backend:
+        with pychor.SimulationBackend(parties=[alice, bob], latency=0.05) as backend:
             x = 5 @ alice
             x.send(src=alice, dest=bob)
             backend.print_sequence_diagram()
+            backend.print_timing_summary()
         ```
     """
 
-    def __init__(self, parties: Iterable[Party]):
+    def __init__(
+        self,
+        parties: Iterable[Party],
+        *,
+        latency: Union[
+            float,
+            Mapping[tuple[Party, Party], float],
+            Callable[[Party, Party], float],
+        ] = 0.1,
+    ):
         super().__init__(parties)
+
+        self.latency = latency
+        self._latency_fn, self._latency_description = _normalize_latency(
+            latency, self.parties
+        )
+        self.timing = {party: PartyTiming() for party in self.parties}
 
         # Emit sequence diagram?
         self.uml = ""
@@ -462,11 +542,20 @@ class SimulationBackend(ChoreographyBackend):
         added to the sequence diagram. Values whose string form exceeds ten
         characters are truncated with an ellipsis in the diagram only; the value
         delivered to the destination is never truncated.
+
+        The destination's virtual clock advances to the later of its current
+        time and the sender's time plus the latency of the link; the sender's
+        clock is unchanged. A send from a party to itself is not timed.
+
+        Raises:
+            ValueError: If `party_to` is not part of this backend.
         """
         assert isinstance(lv, LocatedVal)
         assert isinstance(party_from, Party)
         assert isinstance(party_to, Party)
         assert party_from in lv.parties
+        if party_to not in self.party_set:
+            raise ValueError(f'Party {party_to} is not part of this backend')
 
         val = self.unwrap(lv, {party_from})
         self.views[party_to].append(val)
@@ -480,6 +569,7 @@ class SimulationBackend(ChoreographyBackend):
             val_str = f'{val_str} ({note})'
 
         self.emit_to_sequence(f'{party_from.name} ->> {party_to.name} : {val_str}')
+        self._record_message(party_from, party_to)
 
     def locally(self, f: Callable, *args: Any, **kwargs: Any) -> LocatedVal:
         """Evaluate `f` on the raw values of co-located arguments.
@@ -487,6 +577,9 @@ class SimulationBackend(ChoreographyBackend):
         The result is owned by the intersection of the owner sets of the located
         arguments. Plain Python scalars among the arguments contribute no
         ownership constraint.
+
+        The execution time of `f` is measured and added to the virtual clock
+        of every party that owns the result.
 
         Raises:
             AssertionError: If the located arguments have no owner in common.
@@ -497,7 +590,18 @@ class SimulationBackend(ChoreographyBackend):
             [args_parties, kwargs_parties],
             f'No participating parties for {args}',
         )
+
+        # `f` runs once, but every participant is charged its execution time,
+        # since each of them would run it in a real deployment. Choreographic
+        # operations inside `f` are not supported and would be double-counted.
+        start = time.perf_counter()
         output = f(*new_args, **new_kwargs)
+        elapsed = time.perf_counter() - start
+        for party in new_parties:
+            timing = self.timing[party]
+            timing.clock += elapsed
+            timing.compute_time += elapsed
+            timing.local_ops += 1
 
         return LocatedVal(new_parties.copy(), output)
 
@@ -572,6 +676,77 @@ class SimulationBackend(ChoreographyBackend):
         print(self.uml)
         print('==================================================')
 
+    def print_timing_summary(self):
+        """Print each party's virtual clock and what it was spent on.
+
+        One row per party, in the order the parties were given:
+
+        - `clock`: the party's virtual time at the end of the run, in seconds.
+        - `compute`: measured execution time of the local computations the
+          party took part in. This is wall-clock time of the simulating
+          process, so it varies between runs and machines.
+        - `wait`: time the party's clock was moved forward waiting for a
+          message to arrive.
+        - `local ops`, `sent`, `received`: counts of local computations,
+          messages sent, and messages received.
+
+        The final line gives the *makespan* — the largest clock, which is how
+        long the protocol took — and the party that finished last. The same
+        numbers are available as `PartyTiming` objects in `timing`. For the
+        choreography in `examples/protocol_simple.py` with the default latency,
+        this prints something like:
+
+        ```
+        ==================================================
+        Execution Timing:
+        latency model: constant 0.1 s per message
+        party      clock (s)   compute (s)      wait (s)  local ops   sent  received
+        party1      0.200000      0.000000      0.200000          0      1         1
+        party2      0.100004      0.000004      0.100000          1      1         1
+        makespan: 0.200000 s (party1)
+        ==================================================
+        ```
+        """
+        name_width = max(len('party'), max(len(p.name) for p in self.parties))
+        print('=' * 50)
+        print('Execution Timing:')
+        print(f'latency model: {self._latency_description}')
+        print(
+            f'{"party":<{name_width}}  {"clock (s)":>12}  {"compute (s)":>12}  '
+            f'{"wait (s)":>12}  {"local ops":>9}  {"sent":>5}  {"received":>8}'
+        )
+        for party in self.parties:
+            t = self.timing[party]
+            print(
+                f'{party.name:<{name_width}}  {t.clock:>12.6f}  '
+                f'{t.compute_time:>12.6f}  {t.wait_time:>12.6f}  '
+                f'{t.local_ops:>9}  {t.messages_sent:>5}  {t.messages_received:>8}'
+            )
+        slowest = max(self.parties, key=lambda p: self.timing[p].clock)
+        print(f'makespan: {self.timing[slowest].clock:.6f} s ({slowest.name})')
+        print('=' * 50)
+
+    def _record_message(self, party_from: Party, party_to: Party) -> None:
+        """Advance the receiver's virtual clock and message counters for one send."""
+        if party_from == party_to:
+            return
+
+        latency = self._latency_fn(party_from, party_to)
+        if latency < 0:
+            raise ValueError(
+                f'latency from {party_from} to {party_to} is negative: {latency}'
+            )
+
+        sender = self.timing[party_from]
+        receiver = self.timing[party_to]
+        arrival = sender.clock + latency
+        if arrival > receiver.clock:
+            receiver.wait_time += arrival - receiver.clock
+            receiver.clock = arrival
+
+        sender.messages_sent += 1
+        receiver.messages_received += 1
+
 
 def _validate_parties(parties):
     try:
@@ -597,6 +772,49 @@ def _intersect_party_sets(party_sets, error_message):
     parties = set.intersection(*party_sets)
     assert len(parties) > 0, error_message
     return parties
+
+
+def _normalize_latency(latency, parties):
+    """Turn a latency specification into a `(function, description)` pair.
+
+    The function maps `(party_from, party_to)` to seconds; the description is
+    the one-line label `print_timing_summary` shows. See `SimulationBackend`
+    for the accepted forms.
+    """
+    if isinstance(latency, (int, float)):
+        if latency < 0:
+            raise ValueError(f'latency must be non-negative, got {latency}')
+        return (lambda party_from, party_to: latency), f'constant {latency} s per message'
+
+    if isinstance(latency, Mapping):
+        party_set = set(parties)
+        table = dict(latency)
+        for pair, value in table.items():
+            if not (isinstance(pair, tuple) and len(pair) == 2
+                    and pair[0] in party_set and pair[1] in party_set):
+                raise ValueError(
+                    f'latency mapping key {pair!r} is not a pair of this backend\'s parties'
+                )
+            if not isinstance(value, (int, float)):
+                raise TypeError(f'latency for {pair!r} must be a number, got {value!r}')
+            if value < 0:
+                raise ValueError(f'latency for {pair!r} must be non-negative, got {value}')
+
+        missing = [
+            (a, b) for a in parties for b in parties if a != b and (a, b) not in table
+        ]
+        if missing:
+            raise ValueError(f'latency mapping is missing pairs: {missing}')
+        return (lambda party_from, party_to: table[(party_from, party_to)]), 'per-pair mapping'
+
+    if callable(latency):
+        name = getattr(latency, '__name__', repr(latency))
+        return latency, f'callable {name}'
+
+    raise TypeError(
+        'latency must be a number, a mapping from (party_from, party_to) to '
+        'seconds, or a callable'
+    )
 
 
 def get_val(lv: Any) -> tuple:

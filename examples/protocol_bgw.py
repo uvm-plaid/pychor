@@ -14,7 +14,7 @@ import pychor
 from dataclasses import dataclass
 import shamir
 import protocol_mult
-from example_backend import backend, check
+from example_backend import backend, check, print_timing_summary
 
 @dataclass
 class Gate:
@@ -100,7 +100,9 @@ def bgw(parties, inputs, circuit):
 
 def main():
     parties = [pychor.Party(f'p{i}') for i in range(6)]
-    with backend(parties=parties):
+    # 100 ms per message. Addition gates are free, so the running time comes
+    # from sharing the inputs, the multiplication gates, and the final reveal.
+    with backend(parties=parties, latency=0.1):
         inputs = {p: 2 for p in parties}
         input_wires = {p: w for p, w in zip(parties, range(len(parties)))}
         circuit = gen_prod_ish_circuit(list(input_wires.values()))
@@ -113,6 +115,7 @@ def main():
 
         for p in parties:
             check(results[p][0], 126, f'output at {p}')
+        print_timing_summary()
         return results
 
 
