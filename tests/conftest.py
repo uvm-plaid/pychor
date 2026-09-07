@@ -58,7 +58,7 @@ def port_for(index):
     return BASE_PORT + _worker_offset() + index * PORT_WINDOW
 
 
-def run_example(name, backend='local', base_port=None, timeout=300, env=None):
+def run_example(name, backend='simulation', base_port=None, timeout=300, env=None):
     """Run one example as a subprocess and return the completed process.
 
     Fails the test with the example's own output attached if it exits non-zero.

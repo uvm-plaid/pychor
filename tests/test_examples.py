@@ -12,7 +12,7 @@ from conftest import port_for, run_example
 
 # Backends every example is expected to work under. The `tcp` deployment
 # backend needs one process per party and is exercised in test_deployment.py.
-BACKENDS = ['local', 'forking_tcp']
+BACKENDS = ['simulation', 'forking_tcp']
 
 # Every runnable example, in the order the port windows are handed out. `slow`
 # examples are skipped unless --runslow is given.

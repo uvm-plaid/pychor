@@ -28,7 +28,7 @@ import pychor
 p1 = pychor.Party('party1')
 p2 = pychor.Party('party2')
 
-with pychor.LocalBackend(parties=[p1, p2]) as backend:
+with pychor.SimulationBackend(parties=[p1, p2]) as backend:
     x = 5 @ p1                       # 5@{party1}
     x.send(src=p1, dest=p2)          # 5@{party1, party2}
 
@@ -39,7 +39,8 @@ with pychor.LocalBackend(parties=[p1, p2]) as backend:
     backend.print_sequence_diagram()
 ```
 
-`LocalBackend` records the protocol as a Mermaid sequence diagram as it runs:
+`SimulationBackend` records the protocol as a Mermaid sequence diagram as it
+runs:
 
 ```mermaid
 sequenceDiagram
@@ -52,9 +53,9 @@ party2 ->> party1 : 11
 The choreography above never names a transport, so the same code runs under any
 of three backends:
 
-- **`LocalBackend`** — runs the whole choreography in one process, playing every
-  party. For design, teaching, tests, and security experiments; the only backend
-  that draws sequence diagrams.
+- **`SimulationBackend`** — runs the whole choreography in one process, playing
+  every party. For design, teaching, tests, and security experiments; the only
+  backend that draws sequence diagrams.
 - **`ForkingTCPBackend`** — forks one local process per party and connects them
   over TCP. Confirms a protocol is genuinely executable one-party-per-process.
 - **`TCPBackend`** — one process per party across machines, for deployment.
@@ -104,7 +105,7 @@ What the suite covers:
 
 | File | Tests | Checks |
 | --- | --- | --- |
-| `tests/test_examples.py` | 42 | Every example, under the `local` and `forking_tcp` backends. |
+| `tests/test_examples.py` | 42 | Every example, under the `simulation` and `forking_tcp` backends. |
 | `tests/test_choreography.py` | 61 | The core API — ownership, where a computation runs, destructuring, operators, views. |
 | `tests/test_tcp_backend.py` | 18 | Both TCP backends, including the rule that a non-owning process holds `None`. |
 | `tests/test_deployment.py` | 4 | Real deployments: one process per party over real sockets. |

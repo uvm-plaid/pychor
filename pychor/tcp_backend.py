@@ -188,7 +188,7 @@ class TCPBackend(ChoreographyBackend):
             party_to: The receiving party.
             lv: The located value to send. The receiving process fills in its
                 `val` in place.
-            note: Accepted for interface compatibility with `LocalBackend`;
+            note: Accepted for interface compatibility with `SimulationBackend`;
                 these backends draw no diagram, so it is unused.
         """
         assert isinstance(lv, LocatedVal)
@@ -439,7 +439,7 @@ class ForkingTCPBackend:
 
     This is the testing counterpart to `TCPBackend`: it gives a choreography
     genuine one-party-per-process execution without any deployment, so it
-    catches protocols that only work because `LocalBackend` happens to hold
+    catches protocols that only work because `SimulationBackend` happens to hold
     every party's data in one place.
 
     Entering the context forks one child per party after the first — the parent

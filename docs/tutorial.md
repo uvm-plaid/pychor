@@ -28,12 +28,12 @@ alice = pychor.Party("alice")
 bob = pychor.Party("bob")
 ```
 
-PyChor operations run inside a backend. `LocalBackend` executes the choreography
-in one Python process, which makes it useful for examples, testing, and protocol
-design.
+PyChor operations run inside a backend. `SimulationBackend` executes the
+choreography in one Python process, which makes it useful for examples,
+testing, and protocol design.
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     print(x)                # 5@{alice}
 ```
@@ -51,7 +51,7 @@ A local computation can run only where its located inputs are available. Use
 `pychor.locally` to apply an ordinary Python function to located values:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     y = pychor.locally(lambda value: value + 1, x)
     print(y)                # 6@{alice}
@@ -62,7 +62,7 @@ The result is located at the parties that could see the inputs.
 You can also locate a function at a party with the `@` operator:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     increment_at_alice = (lambda value: value + 1) @ alice
     y = increment_at_alice(x)
@@ -75,7 +75,7 @@ For named reusable local functions, use `local_function`:
 def add_bonus(value, bonus):
     return value + bonus
 
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     y = add_bonus(x, 2)
 ```
@@ -91,7 +91,7 @@ operator is shorthand for a local computation, so `x + y` runs wherever both
 operands are available and yields a new located value:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     y = 6 @ alice
     print(x + y)            # 11@{alice}
@@ -120,7 +120,7 @@ operands, and PyChor works out which party that is.
 Use `send` to communicate a located value from one party to another:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
     print(x)                # 5@{alice, bob}
@@ -134,7 +134,7 @@ every party that owns its inputs, so a computation over `x` would now run at
 both parties. `only` narrows ownership to say whose value you mean:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
 
@@ -155,7 +155,7 @@ a hash, a ciphertext, or a share:
 hash_val.send(sender, receiver, note='hash of committed value')
 ```
 
-`LocalBackend` puts that label on the corresponding edge of the sequence
+`SimulationBackend` puts that label on the corresponding edge of the sequence
 diagram it records for the protocol; see
 [Sequence diagrams](concepts.md#sequence-diagrams).
 
@@ -165,7 +165,7 @@ If a local computation returns a Python collection, PyChor can split the located
 collection into located elements:
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     pair = ((lambda value: (value, value + 1)) @ alice)(5 @ alice)
     first, second = pair.untup(2)
 ```
@@ -205,7 +205,7 @@ with pychor.ForkingTCPBackend(parties=[alice, bob], base_port=10100):
 
 `ForkingTCPBackend` forks one process per party and connects them over TCP, so
 each party genuinely holds only its own data. Running a protocol this way is
-worth doing even during development, because `LocalBackend` cannot detect a
+worth doing even during development, because `SimulationBackend` cannot detect a
 choreography that reads a value it does not own — in one process, the value is
 always there.
 

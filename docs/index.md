@@ -22,7 +22,7 @@ import pychor
 alice = pychor.Party("alice")
 bob = pychor.Party("bob")
 
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     x.send(src=alice, dest=bob)
     y = ((lambda value: value + 1) @ bob)(x.only(bob))
@@ -33,12 +33,12 @@ with pychor.LocalBackend(parties=[alice, bob]):
 The choreography above never names a transport, so the same protocol code runs
 under any of the three bundled backends:
 
-- **`LocalBackend`** runs the whole choreography in one process, playing every
-  party at once. It is the backend for design, teaching, and tests, and the only
-  one that can draw a sequence diagram of the protocol.
+- **`SimulationBackend`** runs the whole choreography in one process, playing
+  every party at once. It is the backend for design, teaching, and tests, and
+  the only one that can draw a sequence diagram of the protocol.
 - **`ForkingTCPBackend`** forks one local process per party and connects them
   over TCP. Use it to check that a protocol really is executable
-  one-party-per-process, which `LocalBackend` cannot tell you.
+  one-party-per-process, which `SimulationBackend` cannot tell you.
 - **`TCPBackend`** is the deployment backend: one process per party, one party
   per machine, connected over a network.
 

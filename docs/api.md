@@ -55,7 +55,7 @@ one — see
       show_root_heading: true
       show_root_full_path: false
 
-::: pychor.choreography.LocalBackend
+::: pychor.choreography.SimulationBackend
     options:
       show_root_heading: true
       show_root_full_path: false

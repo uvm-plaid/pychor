@@ -41,9 +41,9 @@ python -m pip install -e ".[examples,test]"
 pytest
 ```
 
-`pytest` runs every example under the `local` and `forking_tcp` backends, plus
-the tests for the library itself; `pytest --runslow` adds the long statistical
-run and the multi-process deployment tests. See [Testing](testing.md) for what
+`pytest` runs every example under the `simulation` and `forking_tcp` backends,
+plus the tests for the library itself; `pytest --runslow` adds the long
+statistical run and the multi-process deployment tests. See [Testing](testing.md) for what
 the suite covers and how to select parts of it.
 
 ## Platform requirements
@@ -52,7 +52,7 @@ The backends differ in what they ask of the platform:
 
 | Backend | Requirement |
 | --- | --- |
-| `LocalBackend` | None. Runs anywhere Python runs. |
+| `SimulationBackend` | None. Runs anywhere Python runs. |
 | `ForkingTCPBackend` | `os.fork`, so Unix-like systems only — not Windows. Needs `len(parties)` free localhost ports starting at `base_port`. |
 | `TCPBackend` | Each party's address must be bindable by its own process and reachable from every other party, with the chosen ports open. |
 

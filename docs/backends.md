@@ -7,7 +7,7 @@ machines — you choose by picking which context manager to enter.
 
 ## Choosing a backend
 
-| | `LocalBackend` | `ForkingTCPBackend` | `TCPBackend` |
+| | `SimulationBackend` | `ForkingTCPBackend` | `TCPBackend` |
 | --- | --- | --- | --- |
 | Processes | 1, playing every party | one per party, forked | one per party, launched by you |
 | Real network | no | loopback TCP | yes |
@@ -18,10 +18,11 @@ machines — you choose by picking which context manager to enter.
 | Use it for | design, teaching, tests, security experiments | checking a protocol is genuinely distributable | deployment |
 
 The progression is the intended workflow. Design a protocol under
-`LocalBackend`, where you can print a sequence diagram and inspect every
+`SimulationBackend`, where you can print a sequence diagram and inspect every
 party's view at once. Then run it under `ForkingTCPBackend` to prove it really
-executes one-party-per-process — `LocalBackend` cannot catch a choreography that
-reads a value it does not own, because in one process the value is always there.
+executes one-party-per-process — `SimulationBackend` cannot catch a
+choreography that reads a value it does not own, because in one process the
+value is always there.
 Deploy with `TCPBackend`.
 
 ## Writing backend-agnostic choreographies
@@ -43,10 +44,10 @@ import os
 import pychor
 
 def backend(parties):
-    backend_name = os.environ.get('PYCHOR_BACKEND', 'local').lower()
+    backend_name = os.environ.get('PYCHOR_BACKEND', 'simulation').lower()
 
-    if backend_name == 'local':
-        return pychor.LocalBackend(parties=parties)
+    if backend_name == 'simulation':
+        return pychor.SimulationBackend(parties=parties)
     if backend_name == 'forking_tcp':
         base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
         return pychor.ForkingTCPBackend(parties=parties, base_port=base_port)
@@ -64,19 +65,19 @@ The variables it reads:
 
 | Variable | Meaning |
 | --- | --- |
-| `PYCHOR_BACKEND` | `local` (default), `forking_tcp`, or `tcp`. |
+| `PYCHOR_BACKEND` | `simulation` (default), `forking_tcp`, or `tcp`. |
 | `PYCHOR_TCP_BASE_PORT` | For `forking_tcp`: port of the first party. Default `10000`. |
 | `PYCHOR_TCP_ME` | For `tcp`: the name of the party this process plays. Required. |
 | `PYCHOR_TCP_ADDRESSES` | For `tcp`: `party=host:port` entries separated by commas, covering every party. Required. |
 | `PYCHOR_TCP_CONNECT_TIMEOUT` | Seconds to wait for the party mesh. Default `10.0`. |
 
-## `LocalBackend`
+## `SimulationBackend`
 
-`LocalBackend` runs the entire choreography in the calling process, playing
+`SimulationBackend` runs the entire choreography in the calling process, playing
 every party itself.
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]) as backend:
+with pychor.SimulationBackend(parties=[alice, bob]) as backend:
     x = 5 @ alice
     x.send(src=alice, dest=bob)
 
@@ -96,8 +97,9 @@ backends:
 
 The cost of that convenience is fidelity: nothing is actually distributed, so a
 choreography that reads a value belonging to someone else still finds a real
-value in memory and runs happily. Treat a passing `LocalBackend` run as evidence
-that the protocol computes the right answer, not that it is executable.
+value in memory and runs happily. Treat a passing `SimulationBackend` run as
+evidence that the protocol computes the right answer, not that it is
+executable.
 
 ## `ForkingTCPBackend`
 
@@ -234,7 +236,7 @@ it. And the base class's methods are stubs rather than abstract, so a partial
 backend fails by silently returning `None` instead of raising — implement all
 seven.
 
-Use `LocalBackend` as the reference implementation for the semantics, and
+Use `SimulationBackend` as the reference implementation for the semantics, and
 `TCPBackend` for the pattern of a backend where each process holds only part of
 the state.
 

@@ -7,11 +7,11 @@ def check(located, expected, label=None, tol=None):
     """Assert that a located value equals `expected`, wherever it is visible.
 
     Examples use this instead of a bare `assert` so that they work under every
-    backend. Under `LocalBackend` a single process plays every party, so every
-    value is present and this always checks. Under a TCP backend each party runs
-    in its own process and holds `None` for the values it does not own, so this
-    checks only in the processes whose party is an owner and is a no-op in the
-    rest.
+    backend. Under `SimulationBackend` a single process plays every party, so
+    every value is present and this always checks. Under a TCP backend each
+    party runs in its own process and holds `None` for the values it does not
+    own, so this checks only in the processes whose party is an owner and is a
+    no-op in the rest.
 
     Args:
         located: The `LocatedVal` to check.
@@ -26,7 +26,7 @@ def check(located, expected, label=None, tol=None):
     """
     from pychor import choreography
 
-    me = getattr(choreography.cc, 'party', None)  # None under LocalBackend
+    me = getattr(choreography.cc, 'party', None)  # None under SimulationBackend
     if me is not None and me not in located.parties:
         return
 
@@ -45,10 +45,10 @@ def check(located, expected, label=None, tol=None):
 
 
 def backend(parties):
-    backend_name = os.environ.get('PYCHOR_BACKEND', 'local').lower()
+    backend_name = os.environ.get('PYCHOR_BACKEND', 'simulation').lower()
 
-    if backend_name == 'local':
-        return pychor.LocalBackend(parties=parties)
+    if backend_name == 'simulation':
+        return pychor.SimulationBackend(parties=parties)
     if backend_name == 'forking_tcp':
         base_port = int(os.environ.get('PYCHOR_TCP_BASE_PORT', '10000'))
         return pychor.ForkingTCPBackend(parties=parties, base_port=base_port)
@@ -57,7 +57,7 @@ def backend(parties):
 
     raise ValueError(
         f"Unsupported PYCHOR_BACKEND {backend_name!r}; "
-        "expected 'local', 'forking_tcp', or 'tcp'"
+        "expected 'simulation', 'forking_tcp', or 'tcp'"
     )
 
 

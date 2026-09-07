@@ -5,8 +5,9 @@ ordinary Python values at those participants, run local computations, and record
 communication between parties through a backend.
 
 A choreography is written once, as a single global program, and executed by a
-*backend*. `LocalBackend` (defined here) runs the whole choreography in one
-process, which is convenient for design, teaching, and testing. The backends in
+*backend*. `SimulationBackend` (defined here) runs the whole choreography in
+one process, which is convenient for design, teaching, and testing. The
+backends in
 `pychor.tcp_backend` run one party per process over a network. Because the
 choreography itself never mentions a backend, the same protocol code runs
 unchanged under all of them.
@@ -25,7 +26,7 @@ __all__ = [
     'Party',
     'LocatedVal',
     'ChoreographyBackend',
-    'LocalBackend',
+    'SimulationBackend',
     'constant',
     'locally',
     'local_function',
@@ -60,7 +61,7 @@ class Party:
         alice = pychor.Party("alice")
         bob = pychor.Party("bob")
 
-        with pychor.LocalBackend(parties=[alice, bob]):
+        with pychor.SimulationBackend(parties=[alice, bob]):
             x = 5 @ alice
         ```
     """
@@ -147,10 +148,10 @@ class LocatedVal:
     Ownership *grows* when a value is sent — `send` adds the destination to
     `parties` — and is *narrowed* with `only`.
 
-    Under `LocalBackend`, `val` always holds the real value because a single
-    process plays every party. Under the TCP backends, `val` holds the real
-    value only in the processes whose party appears in `parties`, and is `None`
-    everywhere else; see `pychor.tcp_backend` and the Concepts page of the
+    Under `SimulationBackend`, `val` always holds the real value because a
+    single process plays every party. Under the TCP backends, `val` holds the
+    real value only in the processes whose party appears in `parties`, and is
+    `None` everywhere else; see `pychor.tcp_backend` and the Concepts page of the
     documentation.
 
     Args:
@@ -192,9 +193,9 @@ class LocatedVal:
         Args:
             src: The sending party, which must already own this value.
             dest: The receiving party.
-            note: Optional label for this message. `LocalBackend` appends it to
-                the corresponding edge of the sequence diagram, which is useful
-                for explaining what a message carries — see
+            note: Optional label for this message. `SimulationBackend` appends
+                it to the corresponding edge of the sequence diagram, which is
+                useful for explaining what a message carries — see
                 `examples/protocol_commit.py`.
 
         Raises:
@@ -324,8 +325,9 @@ class ChoreographyBackend:
     `untup`, and `undict`. The methods defined here are the interface: all but
     `constant` are stubs, and a subclass that leaves one unimplemented will
     silently return `None` from the corresponding operation rather than raise.
-    `LocalBackend` is the reference implementation; `pychor.tcp_backend.TCPBackend`
-    shows the same interface implemented across processes.
+    `SimulationBackend` is the reference implementation;
+    `pychor.tcp_backend.TCPBackend` shows the same interface implemented across
+    processes.
 
     Subclasses that override `__enter__` or `__exit__` must call
     `super().__enter__()` / `super().__exit__()` so that the active-backend
@@ -409,12 +411,12 @@ class ChoreographyBackend:
         global cc
         cc = None
 
-class LocalBackend(ChoreographyBackend):
+class SimulationBackend(ChoreographyBackend):
     """Run a choreography in a single local Python process.
 
-    `LocalBackend` is useful for tutorials, tests, and protocol sketches. One
-    process plays every party, so every located value is genuinely present and
-    a choreography always runs to completion quickly, with no network setup.
+    `SimulationBackend` is useful for tutorials, tests, and protocol sketches.
+    One process plays every party, so every located value is genuinely present
+    and a choreography always runs to completion quickly, with no network setup.
 
     The trade-off is that this backend cannot detect a choreography that reads a
     value it does not own: nothing is actually distributed, so an illegal read
@@ -433,7 +435,7 @@ class LocalBackend(ChoreographyBackend):
 
     Example:
         ```python
-        with pychor.LocalBackend(parties=[alice, bob]) as backend:
+        with pychor.SimulationBackend(parties=[alice, bob]) as backend:
             x = 5 @ alice
             x.send(src=alice, dest=bob)
             backend.print_sequence_diagram()
@@ -726,7 +728,7 @@ def local_function(func: Callable) -> Callable:
         def add_bonus(value, bonus):
             return value + bonus
 
-        with pychor.LocalBackend(parties=[alice, bob]):
+        with pychor.SimulationBackend(parties=[alice, bob]):
             y = add_bonus(5 @ alice, 2)
         ```
     """

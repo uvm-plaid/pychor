@@ -3,7 +3,8 @@
 This page explains how PyChor actually executes a choreography. The
 [tutorial](tutorial.md) shows the syntax; this page covers the rules that
 decide where each computation runs and what each process knows, which is what
-you need in order to move a protocol from `LocalBackend` to a real deployment.
+you need in order to move a protocol from `SimulationBackend` to a real
+deployment.
 
 ## Located values
 
@@ -12,7 +13,7 @@ pairing is a `LocatedVal`: `val` is the underlying Python value and `parties` is
 its owner set.
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice
     print(x)          # 5@{alice}
 ```
@@ -44,7 +45,7 @@ inputs — the intersection of their owner sets — and its result is located at
 exactly those parties.
 
 ```python
-with pychor.LocalBackend(parties=[alice, bob]):
+with pychor.SimulationBackend(parties=[alice, bob]):
     x = 5 @ alice                   # {alice}
     y = 6 @ bob                     # {bob}
     x.send(src=alice, dest=bob)     # x is now {alice, bob}
@@ -117,7 +118,7 @@ sender blocks on a write nobody reads, or the receiver blocks forever on a read.
 To make a value available for a decision, send it to the parties that need to
 decide.
 
-!!! note "`LocalBackend` will not catch this"
+!!! note "`SimulationBackend` will not catch this"
     A single process plays every party, so every value is genuinely present in
     memory and a data-dependent branch simply works. Running the protocol under
     `ForkingTCPBackend` is what surfaces the problem — this is the main reason
@@ -179,12 +180,12 @@ Re-entering a backend gives a fresh run with empty views, which is how
 
 ## Sequence diagrams
 
-`LocalBackend` records every send as it happens and accumulates a
+`SimulationBackend` records every send as it happens and accumulates a
 [Mermaid](https://mermaid.js.org/) sequence diagram in its `uml` attribute.
 `print_sequence_diagram()` prints it:
 
 ```python
-with pychor.LocalBackend(parties=[p1, p2]) as backend:
+with pychor.SimulationBackend(parties=[p1, p2]) as backend:
     x = 5 @ p1
     x.send(src=p1, dest=p2)
     z = 6 @ p2
@@ -273,4 +274,4 @@ the step of the protocol that leaks.
 
 Under a TCP backend, each process can only see its own party's view, since the
 other parties' messages never arrive in that process. Collecting all views at
-once is a `LocalBackend` capability.
+once is a `SimulationBackend` capability.

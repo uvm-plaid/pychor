@@ -25,7 +25,7 @@ pytest --runslow
 
 | File | Tests | What it checks |
 | --- | --- | --- |
-| `tests/test_examples.py` | 42 | Every example in `examples/`, under the `local` and `forking_tcp` backends. |
+| `tests/test_examples.py` | 42 | Every example in `examples/`, under the `simulation` and `forking_tcp` backends. |
 | `tests/test_choreography.py` | 61 | The core API: ownership, where a computation runs, destructuring, operators, views, the sequence diagram. Runs in-process in well under a second. |
 | `tests/test_tcp_backend.py` | 18 | `TCPBackend` and `ForkingTCPBackend` — constructor validation, and the SPMD rule that a non-owning process holds `None`. |
 | `tests/test_deployment.py` | 4 | Real deployments: one operating-system process per party over real sockets. |
@@ -36,14 +36,14 @@ protocol computed the right answer — not merely that it did not crash.
 ## Selecting tests
 
 ```bash
-pytest                               # the fast suite
-pytest --runslow                     # everything
-pytest -k protocol_gmw               # one example, both backends
-pytest -k "protocol_gmw and local"   # one example, one backend
-pytest tests/test_choreography.py    # just the library tests
-pytest -m tcp --runslow              # just the multi-process deployment tests
-pytest -x                            # stop at the first failure
-pytest --durations=10                # find the slow tests
+pytest                                   # the fast suite
+pytest --runslow                         # everything
+pytest -k protocol_gmw                   # one example, both backends
+pytest -k "protocol_gmw and simulation"  # one example, one backend
+pytest tests/test_choreography.py        # just the library tests
+pytest -m tcp --runslow                  # just the multi-process deployment tests
+pytest -x                                # stop at the first failure
+pytest --durations=10                    # find the slow tests
 ```
 
 A failing example test prints that example's own stdout and stderr, so the

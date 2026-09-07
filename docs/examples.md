@@ -35,7 +35,7 @@ python -m pip install -e ".[examples,test]"
 pytest
 ```
 
-That runs all of them under both the `local` and `forking_tcp` backends,
+That runs all of them under both the `simulation` and `forking_tcp` backends,
 alongside the tests for the library itself, so a passing run means every
 protocol computed the right answer rather than merely not crashing.
 `pytest --runslow` adds the full statistical run and the multi-process
