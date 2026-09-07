@@ -11,6 +11,7 @@ nav:
   - Concepts: concepts.md
   - Backends: backends.md
   - Examples: examples.md
+  - Testing: testing.md
   - API Reference: api.md
 
 theme:

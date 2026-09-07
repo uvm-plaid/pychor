@@ -466,7 +466,7 @@ class ForkingTCPBackend:
         host: Address every party binds and connects to.
         base_port: Port of the first party; party *i* uses `base_port + i`.
             Concurrent runs need non-overlapping windows —
-            `examples/run_tests.py` gives each test file its own 100-port range.
+            the test suite gives each example its own 100-port range.
         connect_timeout: Seconds to spend establishing the mesh before raising
             `TimeoutError`.
 

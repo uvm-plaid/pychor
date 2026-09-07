@@ -65,18 +65,52 @@ for details and for writing your own.
 ## Examples
 
 The `examples` directory contains working choreographies for real protocols —
-hash commitments, oblivious transfer, Beaver-triple multiplication, GMW circuit
-evaluation, and secure applications over private medical data — plus a
-simulator-based security proof written as an executable experiment.
+hash commitments, oblivious transfer, Beaver-triple multiplication, GMW and BGW
+circuit evaluation, and secure applications over private medical data — plus
+simulator-based security proofs written as executable experiments.
 
 ```bash
 pip install -e ".[examples]"
-cd examples
-python run_tests.py
+python examples/protocol_beaver.py
 ```
 
 See the [examples documentation](https://uvm-plaid.github.io/pychor/examples/)
 for a description of each one.
+
+## Testing
+
+Every example ends with a `check` call naming the answer it should produce, so
+the examples are also the test suite:
+
+```bash
+pip install -e ".[examples,test]"
+pytest
+```
+
+That is the everyday command: **119 tests in about 50 seconds**, skipping the 6
+expensive ones. `pytest --runslow` runs all **125 in about 75 seconds**. A
+passing run means every protocol computed the right answer, not merely that it
+did not crash.
+
+| Command | What it runs |
+| --- | --- |
+| `pytest` | The fast suite. |
+| `pytest --runslow` | Everything, including the statistical run and the multi-process deployments. |
+| `pytest -k protocol_gmw` | One example, under both backends. |
+| `pytest tests/test_choreography.py` | Just the library tests (under a second). |
+| `pytest -m tcp --runslow` | Just the real one-process-per-party deployment tests. |
+
+What the suite covers:
+
+| File | Tests | Checks |
+| --- | --- | --- |
+| `tests/test_examples.py` | 42 | Every example, under the `local` and `forking_tcp` backends. |
+| `tests/test_choreography.py` | 61 | The core API — ownership, where a computation runs, destructuring, operators, views. |
+| `tests/test_tcp_backend.py` | 18 | Both TCP backends, including the rule that a non-owning process holds `None`. |
+| `tests/test_deployment.py` | 4 | Real deployments: one process per party over real sockets. |
+
+See the [testing documentation](https://uvm-plaid.github.io/pychor/testing/) for
+the markers, how the example tests are run, and how to add an example.
 
 ## Documentation
 

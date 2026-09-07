@@ -3,6 +3,47 @@ import os
 import pychor
 
 
+def check(located, expected, label=None, tol=None):
+    """Assert that a located value equals `expected`, wherever it is visible.
+
+    Examples use this instead of a bare `assert` so that they work under every
+    backend. Under `LocalBackend` a single process plays every party, so every
+    value is present and this always checks. Under a TCP backend each party runs
+    in its own process and holds `None` for the values it does not own, so this
+    checks only in the processes whose party is an owner and is a no-op in the
+    rest.
+
+    Args:
+        located: The `LocatedVal` to check.
+        expected: The value it should hold.
+        label: Optional name for this check, used in the failure message.
+        tol: Optional absolute tolerance. Pass this for the fixed-point examples,
+            whose encoding is exact only up to the scale factor they use.
+
+    Raises:
+        AssertionError: If the local party owns the value and it differs from
+            `expected`.
+    """
+    from pychor import choreography
+
+    me = getattr(choreography.cc, 'party', None)  # None under LocalBackend
+    if me is not None and me not in located.parties:
+        return
+
+    if tol is not None:
+        difference = abs(located.val - expected)
+        ok = bool(difference.max() <= tol) if hasattr(difference, 'max') \
+            else bool(difference <= tol)
+        detail = f'expected {expected} +/- {tol}'
+    else:
+        # galois scalars and arrays compare elementwise and return numpy values.
+        result = located.val == expected
+        ok = bool(result.all()) if hasattr(result, 'all') else bool(result)
+        detail = f'expected {expected}'
+
+    assert ok, f'{label or "check"}: {detail}, got {located.val}'
+
+
 def backend(parties):
     backend_name = os.environ.get('PYCHOR_BACKEND', 'local').lower()
 

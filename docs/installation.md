@@ -31,6 +31,21 @@ That pulls in `galois` (finite-field arithmetic for secret sharing), `pynacl`
 `scipy`, `pandas`, and `matplotlib` for the applications and the statistical
 security tests. See [Examples](examples.md) for what each example needs.
 
+## Running the tests
+
+The examples double as the test suite. Install the test extra and run `pytest`
+from a checkout:
+
+```bash
+python -m pip install -e ".[examples,test]"
+pytest
+```
+
+`pytest` runs every example under the `local` and `forking_tcp` backends, plus
+the tests for the library itself; `pytest --runslow` adds the long statistical
+run and the multi-process deployment tests. See [Testing](testing.md) for what
+the suite covers and how to select parts of it.
+
 ## Platform requirements
 
 The backends differ in what they ask of the platform:

@@ -1,8 +1,20 @@
+"""1-out-of-4 oblivious transfer.
+
+The sender holds four options and the receiver wants exactly one of them. When
+the protocol finishes the receiver has learned that one option and nothing about
+the other three, while the sender has learned nothing about which one was taken.
+
+The trick is the key generation: the receiver produces four public keys but
+knows the private key for only the one it wants. The sender encrypts each option
+under the corresponding key, so only one ciphertext is ever decryptable -- and
+since all four public keys look alike, the sender cannot tell which.
+"""
+
 import pychor
-from nacl.public import PrivateKey, PublicKey, Box, SealedBox
+from nacl.public import PrivateKey, PublicKey, SealedBox
 from nacl.utils import random
 import galois
-from example_backend import backend
+from example_backend import backend, check
 
 GF_2 = galois.GF(2)
 
@@ -54,17 +66,28 @@ def ot(sender, receiver, select_bits, options):
 
     return result
 
-if __name__ == '__main__':
+def main():
     receiver = pychor.Party('receiver')
     sender = pychor.Party('sender')
 
     with backend(parties=[receiver, sender]) as b:
+        # Select bits (1, 1) address the last of the four rows.
         select_bits = receiver.constant(GF_2([1, 1]))
         options = sender.constant(GF_2([0, 0, 0, 1]))
         result = ot(sender, receiver, select_bits, options)
         print('result:', result)
+        check(result, 1, 'selected option')
+
+        # A party's view is everything it received. The sender's view holds the
+        # four public keys and the receiver's the four ciphertexts -- neither
+        # reveals which row was selected.
         print('views:')
         for k, vs in b.views.items():
             print(k)
             for v in vs:
                 print('  ' + str(v))
+        return result
+
+
+if __name__ == '__main__':
+    main()

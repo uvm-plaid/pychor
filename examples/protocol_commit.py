@@ -1,3 +1,12 @@
+"""A hash-based commitment scheme.
+
+Committing to a value means binding yourself to it without revealing it. The
+sender hashes the value and sends the hash; later it sends the value itself, and
+the receiver re-hashes to confirm it matches. The hash reveals nothing about the
+value on its own, but the sender cannot change its mind afterwards without
+producing a different hash.
+"""
+
 import hashlib
 import pychor
 from example_backend import backend
@@ -21,11 +30,20 @@ class Commitment:
         return result
 
 
-if __name__ == '__main__':
+def main():
     sender = pychor.Party('sender')
     receiver = pychor.Party('receiver')
 
     with backend(parties=[sender, receiver]):
         commitment = Commitment(sender, receiver, pychor.constant(sender, 6))
 
-        print(commitment.open())
+        # `open` compares two located hashes, so it returns a plain bool: the
+        # receiver either accepts the opened value or it does not.
+        opened = commitment.open()
+        print(opened)
+        assert opened, 'the receiver should accept an honestly opened commitment'
+        return opened
+
+
+if __name__ == '__main__':
+    main()

@@ -1,10 +1,12 @@
 import pychor
-from dataclasses import dataclass
-import urllib.request
 import galois
-from example_backend import backend
+from example_backend import backend, check
 
-p = 2**31-1
+# The field must be large enough to hold every intermediate value without
+# wrapping. The fixed-point applications built on this protocol scale their
+# values by a power of ten that grows with each multiplication, so they need the
+# headroom: see the exponent budget discussion in application_division.py.
+p = 2**61-1
 GF = galois.GF(p)
 p1 = pychor.Party('p1')
 p2 = pychor.Party('p2')
@@ -90,4 +92,6 @@ if __name__ == '__main__':
         # Broadcast results and print the product
         r1.send(p1, p2)
         r2.send(p2, p1)
-        print('Product:', r1 + r2)
+        product = r1 + r2
+        print('Product:', product)
+        check(product, 3 * 4, 'product')

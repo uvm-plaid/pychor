@@ -1,9 +1,25 @@
+"""GMW: secure evaluation of a boolean circuit, gate by gate.
+
+Both parties hold XOR shares of every wire in the circuit. XOR gates are free --
+each party just XORs its own shares -- but AND gates need communication, and
+each one is computed with a 1-out-of-4 oblivious transfer from protocol_ot.py.
+Because every intermediate wire stays shared, neither party learns anything
+about the other's input or about the values flowing through the circuit; only
+the output wires are reconstructed.
+
+The circuit evaluated here is a 64-bit adder in Bristol format, so the parties
+compute 5 + 6 = 11 without either revealing its operand. It has 313 XOR gates,
+which cost nothing, and 63 AND gates, which cost one oblivious transfer each.
+"""
+
 import pychor
 from dataclasses import dataclass
-import urllib.request
+from pathlib import Path
 import galois
 import protocol_ot
-from example_backend import backend
+from example_backend import backend, check
+
+CIRCUIT_DIR = Path(__file__).resolve().parent
 
 GF_2 = galois.GF(2)
 
@@ -143,22 +159,30 @@ def gmw(p1, p2, p1_inputs, p2_inputs, circuit):
 
     return outputs
 
-def run_gmw(p1, p2):
-    with open('adder64.txt', 'r') as f:
+def run_gmw(p1, p2, a=5, b=6):
+    with open(CIRCUIT_DIR / 'adder64.txt', 'r') as f:
         adder_txt = f.read()
     adder = parse_circuit(adder_txt)
 
-    p1_inputs = [p1.constant(x) for x in GF_2(int_to_bitstring(5, 64))]
-    p2_inputs = [p2.constant(x) for x in GF_2(int_to_bitstring(6, 64))]
+    p1_inputs = [p1.constant(x) for x in GF_2(int_to_bitstring(a, 64))]
+    p2_inputs = [p2.constant(x) for x in GF_2(int_to_bitstring(b, 64))]
 
     out = gmw(p1, p2, p1_inputs, p2_inputs, adder)
     result = pychor.locally(bitstring_to_int, out)
 
     print(result)
+    return result
 
-if __name__ == '__main__':
+
+def main():
     p1 = pychor.Party('p1')
     p2 = pychor.Party('p2')
 
     with backend(parties=[p1, p2]):
-        run_gmw(p1, p2)
+        result = run_gmw(p1, p2, a=5, b=6)
+        check(result, 5 + 6, 'sum of the two inputs')
+        return result
+
+
+if __name__ == '__main__':
+    main()

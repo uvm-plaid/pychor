@@ -57,4 +57,6 @@ own.
   `ChoreographyBackend` interface.
 - [Examples](examples.md) — the runnable protocols in `examples/`, from
   oblivious transfer to GMW circuit evaluation.
+- [Testing](testing.md) — running the test suite, which is built out of those
+  same examples.
 - [API Reference](api.md) — generated reference for every public object.

@@ -30,6 +30,20 @@ docs = [
      "mkdocs-material>=9.5",
      "mkdocstrings[python]>=0.25",
      ]
+test = [
+     "pytest>=7.4",
+     ]
 
 [tool.setuptools.packages.find]
 include = ["pychor*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# The examples import `example_backend` as a top-level module, so the examples
+# directory has to be importable for the tests that call into them directly.
+pythonpath = ["examples"]
+addopts = "-ra"
+markers = [
+    "slow: long-running; select with --runslow",
+    "tcp: real multi-process TCP deployment; select with --runslow",
+]

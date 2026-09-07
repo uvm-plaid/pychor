@@ -57,8 +57,8 @@ def backend(parties):
 ```
 
 Every example then writes `from example_backend import backend` and
-`with backend(parties=[...])`, so `examples/run_tests.py` can run the whole
-suite under two different backends without editing a line of protocol code.
+`with backend(parties=[...])`, so the test suite can run every example under
+two different backends without editing a line of protocol code.
 
 The variables it reads:
 
@@ -113,8 +113,9 @@ with pychor.ForkingTCPBackend(parties=[alice, bob], base_port=10100):
 
 Ports are assigned by position in `parties`: the first party listens on
 `base_port`, the second on `base_port + 1`, and so on. Concurrent runs therefore
-need non-overlapping windows — `examples/run_tests.py` gives each test file its
-own range with `PYCHOR_TCP_BASE_PORT = 10000 + test_index * 100`.
+need non-overlapping windows — the test suite's `port_for` helper in
+`tests/conftest.py` gives each example its own 100-port range, offset per
+`pytest-xdist` worker so parallel runs stay disjoint.
 
 Three behaviors are worth knowing before you use it:
 
@@ -128,7 +129,7 @@ Three behaviors are worth knowing before you use it:
 - **Child failures surface in the parent.** The parent process plays
   `parties[0]`, waits for every child on exit, and raises `RuntimeError` if any
   exited non-zero; the child's traceback appears on stderr as usual. This is
-  what lets `run_tests.py` treat a zero exit status as a pass.
+  what lets the test suite treat a zero exit status as a pass.
 
 It requires `os.fork`, so it does not run on Windows.
 

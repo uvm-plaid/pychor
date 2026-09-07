@@ -46,7 +46,40 @@ def sum(shares):
     return (xs[0], GF(ys).sum())
 
 # Tests
-if __name__ == '__main__':
+def main():
+    # Sharing and reconstruction round-trip.
     shares = share(25, 5, 10)
     v = reconstruct(shares)
     print(v)
+    assert v == 25, f'expected 25, got {v}'
+
+    # The threshold is what matters: any t of the n shares reconstruct, and
+    # fewer than t reveal nothing about the secret.
+    assert reconstruct(shares[:5]) == 25, 'the first t shares should suffice'
+    assert reconstruct(shares[5:]) == 25, 'any t shares should suffice'
+    assert reconstruct(shares[:4]) != 25, 'fewer than t shares should not work'
+
+    # Addition is local: adding shares point-by-point gives a share of the sum.
+    a_shares = share(7, 3, 5)
+    b_shares = share(11, 3, 5)
+    summed = [add(a, b) for a, b in zip(a_shares, b_shares)]
+    assert reconstruct(summed) == 7 + 11, 'add should give shares of the sum'
+
+    # `sum` does the same across a list of shares held by one party.
+    assert sum([a_shares[0], b_shares[0]]) == add(a_shares[0], b_shares[0])
+
+    # Multiplication is also local, but it doubles the degree of the underlying
+    # polynomial -- so a product of shares from a degree-t sharing needs 2t-1
+    # shares to reconstruct, which is why protocol_mult.py has to reduce the
+    # degree before the next multiplication.
+    c_shares = share(3, 3, 5)
+    d_shares = share(4, 3, 5)
+    product = [mult(c, d) for c, d in zip(c_shares, d_shares)]
+    assert reconstruct(product) == 3 * 4, 'mult should give shares of the product'
+    assert reconstruct(product[:3]) != 3 * 4, 'a product needs more shares'
+
+    print('shamir: all checks passed')
+
+
+if __name__ == '__main__':
+    main()

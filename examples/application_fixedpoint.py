@@ -1,9 +1,22 @@
+"""`SecDec`: secret-shared fixed-point decimals.
+
+Secret sharing works over a finite field, which has no fractions -- so a decimal
+is represented as an integer scaled by a power of ten, and the exponent is
+tracked alongside the shares. Adding requires equal exponents; multiplying adds
+them, so each product is truncated back down to keep the exponent from growing.
+
+application_division.py takes this further and divides, where the exponent
+budget becomes the binding constraint.
+"""
+
 import pychor
 from dataclasses import dataclass
 import galois
 
 from protocol_beaver import *
+from example_backend import backend, check
 
+# Beaver multiplication consumes one triple per `*`, drawn from this pool.
 multiplication_triples = []
 
 @pychor.local_function
@@ -47,24 +60,36 @@ class SecDec:
         f = lambda s1, s2: int(s1 + s2) / (10**self.power)
         return pychor.locally(f, self.s1, self.s2)
 
-if __name__ == '__main__':
-    with pychor.LocalBackend(parties=[p1, p2, dealer]):
+def main():
+    with backend(parties=[p1, p2, dealer]):
         # P1 knows the input x, and P2 knows the input y
-        x_input = 3.1@p1
-        y_input = 4.2@p2
+        a, b = 3.1, 4.2
+        x_input = a@p1
+        y_input = b@p2
 
         # Create secret shares of the inputs
         x = SecDec.input_p1(x_input)
         y = SecDec.input_p2(y_input)
 
+        multiplication_triples.clear()
         for _ in range(20):
             multiplication_triples.append(deal_triple())
 
+        # Both inputs land exactly on the one-decimal-place grid, so the results
+        # are exact too -- the tolerance is only there to absorb the float
+        # rounding in the expected values on the right-hand side.
         r1 = x + y
         print('x + y:', r1.reveal())
+        check(r1.reveal(), a + b, 'x + y', tol=1e-9)
 
         r2 = x * y
         print('x * y:', r2.reveal())
+        check(r2.reveal(), a * b, 'x * y', tol=1e-9)
 
         r3 = x * y * y
         print('x * y * y:', r3.reveal())
+        check(r3.reveal(), a * b * b, 'x * y * y', tol=1e-9)
+
+
+if __name__ == '__main__':
+    main()
