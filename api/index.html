@@ -1,0 +1,5310 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Library-based choreographic programming for Python">
+      
+      
+      
+        <link rel="canonical" href="https://uvm-plaid.github.io/pychor/api/">
+      
+      
+        <link rel="prev" href="../testing/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>API Reference - PyChor</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyChor" class="md-header__button md-logo" aria-label="PyChor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyChor
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/uvm-plaid/pychor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    uvm-plaid/pychor
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyChor" class="md-nav__button md-logo" aria-label="PyChor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyChor
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/uvm-plaid/pychor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    uvm-plaid/pychor
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Party
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" Party">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.__rmatmul__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__rmatmul__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;view
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LocatedVal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" LocatedVal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.local_function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;local_function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.get_val" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_val
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backends
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ChoreographyBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ChoreographyBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LocalBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" LocalBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.emit_to_sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;emit_to_sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.print_sequence_diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;print_sequence_diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;TCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" TCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.__enter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__enter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.__exit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__exit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ForkingTCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ForkingTCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend.__enter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__enter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend.__exit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__exit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ObjectStream
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ObjectStream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.get_obj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_obj
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.put_obj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;put_obj
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;close
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Party
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" Party">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.__rmatmul__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__rmatmul__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.Party.view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;view
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LocatedVal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" LocatedVal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocatedVal.only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.local_function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;local_function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.get_val" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_val
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backends
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ChoreographyBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ChoreographyBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.ChoreographyBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LocalBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" LocalBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.emit_to_sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;emit_to_sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.choreography.LocalBackend.print_sequence_diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;print_sequence_diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;TCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" TCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.__enter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__enter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.__exit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__exit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.send" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;send
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.unwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unwrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.unlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;unlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.untup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;untup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.TCPBackend.undict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;undict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ForkingTCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ForkingTCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend.__enter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__enter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.tcp_backend.ForkingTCPBackend.__exit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__exit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ObjectStream
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ObjectStream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.get_obj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_obj
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.put_obj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;put_obj
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pychor.object_stream.ObjectStream.close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;close
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>Generated reference for PyChor's public objects. Everything listed here is
+re-exported from the <code>pychor</code> package, so <code>pychor.Party</code> and
+<code>pychor.choreography.Party</code> are the same class.</p>
+<p>For the ideas behind these objects, read <a href="../concepts/">Concepts</a>; for choosing
+and configuring a backend, read <a href="../backends/">Backends</a>.</p>
+<h2 id="core-api">Core API<a class="headerlink" href="#core-api" title="Permanent link">&para;</a></h2>
+<p>The objects a choreography is written with: parties to own values, located
+values to carry them, and the three functions that run ordinary Python code at a
+party.</p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.choreography.Party" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Party</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#pychor.choreography.Party" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>A named participant in a choreography.</p>
+<p><code>Party</code> objects are used as ownership labels for located values. The
+expression <code>value @ party</code> locates an ordinary Python value at that party
+when a choreography backend is active.</p>
+<p>Parties are frozen dataclasses, so they are hashable and compare by name,
+and the same <code>Party</code> object can be shared freely across a program. The
+<em>order</em> of the party list passed to a backend is significant for the TCP
+backends: it fixes the connection order and, for <code>ForkingTCPBackend</code>, the
+port assignment.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Human-readable party name used in representations and sequence
+diagrams.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">alice</span> <span class="o">=</span> <span class="n">pychor</span><span class="o">.</span><span class="n">Party</span><span class="p">(</span><span class="s2">&quot;alice&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">bob</span> <span class="o">=</span> <span class="n">pychor</span><span class="o">.</span><span class="n">Party</span><span class="p">(</span><span class="s2">&quot;bob&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.Party.constant" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">constant</span>
+
+
+<a href="#pychor.choreography.Party.constant" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">constant</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Locate a value or function at this party.</p>
+<p>Ordinary values become <code>LocatedVal</code> objects owned by this party.
+Callables become wrappers that execute the callable locally through the
+active backend, so <code>(lambda x: x + 1) @ alice</code> is a function that runs
+at <code>alice</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>v</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to locate, or a callable to run at this party.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>LocatedVal</code> owned by this party, or — when <code>v</code> is callable — a
+wrapper that runs <code>v</code> as a local computation.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If no backend is currently active.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.Party.__rmatmul__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">__rmatmul__</span>
+
+
+<a href="#pychor.choreography.Party.__rmatmul__" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__rmatmul__</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Implement <code>value @ party</code> as shorthand for <code>party.constant(value)</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.Party.view" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">view</span>
+
+
+<a href="#pychor.choreography.Party.view" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">view</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the values this party has received in the active backend.</p>
+<p>A party's <em>view</em> is the ordered list of message payloads delivered to it
+by <code>LocatedVal.send</code>, and it is the audit trail that simulation-based
+security arguments inspect: a protocol is private with respect to a
+party if that party's view can be reproduced by a simulator that never
+sees the honest inputs. <code>examples/protocol_sum.py</code> compares protocol and
+simulator views statistically using this method.</p>
+<p>Each backend context starts with empty views, so a program that samples
+views over many runs must re-enter the backend for each run.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The list of values received by this party so far. Under a TCP
+backend, only the calling process's own party has a populated view.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AttributeError">AttributeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If no backend is currently active.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.choreography.LocatedVal" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">LocatedVal</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#pychor.choreography.LocatedVal" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>A Python value together with the parties that can currently observe it.</p>
+<p>Located values are produced by locating constants, sending values between
+parties, and running local computations. A located value is the unit of
+ownership in a choreography: <code>parties</code> records who knows the value, and the
+backend refuses to compute with a value at a party that does not own it.</p>
+<p>Ownership <em>grows</em> when a value is sent — <code>send</code> adds the destination to
+<code>parties</code> — and is <em>narrowed</em> with <code>only</code>.</p>
+<p>Under <code>LocalBackend</code>, <code>val</code> always holds the real value because a single
+process plays every party. Under the TCP backends, <code>val</code> holds the real
+value only in the processes whose party appears in <code>parties</code>, and is <code>None</code>
+everywhere else; see <code>pychor.tcp_backend</code> and the Concepts page of the
+documentation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parties</code>
+            </td>
+            <td>
+                  <code><span title="typing.Set">Set</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Parties that currently know the underlying value.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>val</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The underlying Python value in the active backend.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>note</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional annotation for protocol explanations or diagrams.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="operators" open>
+  <summary>Operators</summary>
+  <p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> and unary <code>-</code> are defined on located values and
+are each shorthand for a local computation: <code>x + y</code> is equivalent to
+<code>locally(lambda a, b: a + b, x, y)</code>, so it runs at the parties that own
+<em>both</em> operands and produces a new located value. Reflected forms
+(<code>__radd__</code> and friends) are defined too, so a plain Python <code>int</code>,
+<code>float</code>, <code>str</code>, or <code>bytes</code> may appear on either side; a plain value
+places no ownership constraint of its own. This is what lets share
+arithmetic read like ordinary Python — see
+<code>examples/protocol_beaver.py</code>, where a Beaver multiplication is written
+<code>r_1 = d * e + d * b1 + e * a1 + c1</code>.</p>
+<p>Comparisons use dataclass equality, which compares the underlying
+values <em>and</em> the owner sets; there is no located boolean type.</p>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocatedVal.send" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">send</span>
+
+
+<a href="#pychor.choreography.LocatedVal.send" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">send</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Send this located value from <code>src</code> to <code>dest</code>.</p>
+<p>The active backend performs the communication and adds <code>dest</code> to this
+value's owner set, so the same <code>LocatedVal</code> object is afterwards
+readable at both parties. Sending mutates this value in place rather
+than returning a new one.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>src</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The sending party, which must already own this value.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dest</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The receiving party.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>note</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional label for this message. <code>LocalBackend</code> appends it to
+the corresponding edge of the sequence diagram, which is useful
+for explaining what a message carries — see
+<code>examples/protocol_commit.py</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>src</code> does not own this value.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocatedVal.unlist" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unlist</span>
+
+
+<a href="#pychor.choreography.LocatedVal.unlist" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unlist</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located list into a list of located values.</p>
+<p>A local computation that returns a list produces a single located list.
+This splits it into <code>length</code> located values, each owned by the same
+parties, so the individual elements can be sent to different places.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>length</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The expected length of the underlying list.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A Python list of <code>length</code> located values.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocatedVal.untup" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">untup</span>
+
+
+<a href="#pychor.choreography.LocatedVal.untup" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">untup</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located tuple into a tuple of located values.</p>
+<p>This is the usual way to return several results from one local
+computation, as in <code>s1, s2 = share(x).untup(2)</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>length</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The expected length of the underlying tuple.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A Python tuple of <code>length</code> located values.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocatedVal.undict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">undict</span>
+
+
+<a href="#pychor.choreography.LocatedVal.undict" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">undict</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located dict into a dict of located values.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>keys</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The expected keys of the underlying dict.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A Python dict mapping each key to a located value.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocatedVal.only" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">only</span>
+
+
+<a href="#pychor.choreography.LocatedVal.only" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">only</span><span class="p">(</span><span class="n">parties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Party</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Party</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return this value restricted to a subset of its current owners.</p>
+<p>Narrowing ownership is how a choreography says "treat this as <em>bob's</em>
+value from here on". It matters because a local computation runs at the
+intersection of its arguments' owners: after <code>x.send(src=alice,
+dest=bob)</code>, <code>x</code> is owned by both parties, so a computation over <code>x</code>
+would run at both. Passing <code>x.only(bob)</code> instead pins the computation
+to <code>bob</code>.</p>
+<p>This does not communicate anything and does not modify this value; it
+returns a new <code>LocatedVal</code> sharing the same underlying value.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parties</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>, <span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A single <code>Party</code>, or a collection of parties, all of which
+must already own this value.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A new located value owned by exactly <code>parties</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If any requested party does not already own this
+value, or if an empty collection is given.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>parties</code> is neither a <code>Party</code> nor a collection of
+parties.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pychor.choreography.constant" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">constant</span>
+
+
+<a href="#pychor.choreography.constant" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">constant</span><span class="p">(</span><span class="n">party</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Create a located value owned by <code>party</code>.</p>
+<p><code>party.constant(v)</code> and <code>v @ party</code> are the usual spellings; this function
+is the explicit form, useful when the party is computed.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>party</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The owning party, which must belong to the active backend.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>v</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to locate.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>LocatedVal</code> owned by <code>party</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If no backend is currently active.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>party</code> is not part of the active backend.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pychor.choreography.locally" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">locally</span>
+
+
+<a href="#pychor.choreography.locally" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">locally</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Run <code>f</code> as a local computation in the active backend.</p>
+<p>The computation runs at the parties that own <em>every</em> located argument, and
+the result is located at exactly those parties. Plain Python scalars may be
+mixed in freely and place no constraint on where the computation runs.</p>
+<p>Under a TCP backend this call is a no-op in processes whose party is not
+among the owners, and the returned located value carries <code>None</code> there.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>f</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An ordinary Python function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>*args</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Located values, plain scalars, or tuples, lists, and dicts of
+those.</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Keyword arguments, handled the same way as <code>args</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A located value holding <code>f</code>'s result, owned by the parties that could
+see all of the located inputs.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the located arguments have no owner in common.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">y</span> <span class="o">=</span> <span class="n">pychor</span><span class="o">.</span><span class="n">locally</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pychor.choreography.local_function" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">local_function</span>
+
+
+<a href="#pychor.choreography.local_function" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">local_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Decorate a Python function so it becomes backend-aware.</p>
+<p>Outside a backend context, the decorated function behaves like the original
+function, which keeps helpers testable on their own. Inside a backend
+context, calling it runs <code>locally</code> and returns a located value, so the same
+definition serves both purposes.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>func</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The function to make backend-aware.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A wrapper that dispatches to <code>locally</code> whenever a backend is active.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@pychor</span><span class="o">.</span><span class="n">local_function</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span> <span class="nf">add_bonus</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">bonus</span><span class="p">):</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="n">bonus</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">y</span> <span class="o">=</span> <span class="n">add_bonus</span><span class="p">(</span><span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pychor.choreography.get_val" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_val</span>
+
+
+<a href="#pychor.choreography.get_val" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_val</span><span class="p">(</span><span class="n">lv</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Unwrap located values and determine where a computation may run.</p>
+<p>This is the helper backends use to implement <code>locally</code>. It walks an argument
+structure, replaces each <code>LocatedVal</code> with its underlying value, and
+intersects the owner sets it encounters to decide which parties can perform
+the computation. Tuples, lists, and dicts are traversed recursively, so a
+local function may take nested structures of located values.</p>
+<p>Plain <code>int</code>, <code>float</code>, <code>str</code>, and <code>bytes</code> values pass through with no owner
+set, meaning they place no constraint on where the computation runs; this is
+what allows <code>x + 1</code> for a located <code>x</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>lv</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A located value, a plain scalar, or a tuple, list, or dict of those.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>(values, parties)</code> pair, where <code>values</code> mirrors the structure of <code>lv</code>
+with located values replaced by their contents, and <code>parties</code> is the set
+of parties able to run the computation — or <code>None</code> if <code>lv</code> contained no
+located values at all.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the located values have no owner in common.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="Exception">Exception</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>lv</code> contains a value that is neither located, a supported
+scalar, nor a supported container.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div><h2 id="backends">Backends<a class="headerlink" href="#backends" title="Permanent link">&para;</a></h2>
+<p>A backend decides what locating, computing, and sending mean, and is entered as
+a context manager. <code>ChoreographyBackend</code> is the interface to implement for a new
+one — see
+<a href="../backends/#writing-a-custom-backend">Writing a custom backend</a>.</p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.choreography.ChoreographyBackend" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ChoreographyBackend</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Base context manager for choreography backends.</p>
+<p>Entering a backend context makes it the active backend for <code>Party</code>,
+<code>LocatedVal</code>, <code>locally</code>, and <code>local_function</code> operations. Subclasses provide
+the actual execution and communication semantics.</p>
+<p>A backend must implement <code>constant</code>, <code>send</code>, <code>locally</code>, <code>unwrap</code>, <code>unlist</code>,
+<code>untup</code>, and <code>undict</code>. The methods defined here are the interface: all but
+<code>constant</code> are stubs, and a subclass that leaves one unimplemented will
+silently return <code>None</code> from the corresponding operation rather than raise.
+<code>LocalBackend</code> is the reference implementation; <code>pychor.tcp_backend.TCPBackend</code>
+shows the same interface implemented across processes.</p>
+<p>Subclasses that override <code>__enter__</code> or <code>__exit__</code> must call
+<code>super().__enter__()</code> / <code>super().__exit__()</code> so that the active-backend
+global is installed and cleared.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.choreography.ChoreographyBackend.parties">parties</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The backend's parties, as a tuple, in the order given. Order is
+significant for the TCP backends.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.choreography.ChoreographyBackend.party_set">party_set</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The same parties as a set, for membership tests.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.choreography.ChoreographyBackend.views">views</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maps each party to the ordered list of values it has received.
+This is the protocol transcript from each party's point of view, and
+it is what a simulation-based security argument compares; see
+<code>Party.view</code>. Views start empty in each new backend context.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parties</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An iterable of <code>Party</code> objects with unique names. At least one
+party is required.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.constant" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">constant</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.constant" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">constant</span><span class="p">(</span><span class="n">party</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a located value owned by <code>party</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.send" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">send</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.send" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">send</span><span class="p">(</span><span class="n">party_from</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">party_to</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Send a located value from one party to another.</p>
+<p>Implementations must add <code>party_to</code> to <code>lv.parties</code> and record the
+received value in <code>self.views[party_to]</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.locally" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">locally</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.locally" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">locally</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Compute a function locally using located arguments.</p>
+<p>Implementations must evaluate <code>f</code> at the intersection of the owner sets
+of the located arguments, and return a located value owned by exactly
+that intersection.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.unwrap" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unwrap</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.unwrap" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unwrap</span><span class="p">(</span><span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">parties</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Party</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the raw value when all requested parties can observe it.</p>
+<p>Implementations return <code>None</code> rather than raising when the value is not
+available.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.unlist" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unlist</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.unlist" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unlist</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located list into a list of located values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.untup" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">untup</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.untup" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">untup</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located tuple into a list of located values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.ChoreographyBackend.undict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">undict</span>
+
+
+<a href="#pychor.choreography.ChoreographyBackend.undict" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">undict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Un-structure a located dict into a dict of located values.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.choreography.LocalBackend" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">LocalBackend</span>
+
+
+<a href="#pychor.choreography.LocalBackend" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="            ChoreographyBackend (pychor.choreography.ChoreographyBackend)" href="#pychor.choreography.ChoreographyBackend">ChoreographyBackend</a></code></p>
+
+
+
+        <p>Run a choreography in a single local Python process.</p>
+<p><code>LocalBackend</code> is useful for tutorials, tests, and protocol sketches. One
+process plays every party, so every located value is genuinely present and
+a choreography always runs to completion quickly, with no network setup.</p>
+<p>The trade-off is that this backend cannot detect a choreography that reads a
+value it does not own: nothing is actually distributed, so an illegal read
+still finds a real value in memory. Run a protocol under
+<code>pychor.tcp_backend.ForkingTCPBackend</code> to check that it is genuinely
+executable one-party-per-process.</p>
+<p>In exchange, this backend can observe the whole protocol at once. It records
+each send into <code>views</code> and accumulates a <strong>Mermaid</strong> sequence diagram in
+<code>uml</code>, which <code>print_sequence_diagram</code> prints and which can be pasted
+directly into Mermaid-aware Markdown.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.choreography.LocalBackend.uml">uml</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The accumulated Mermaid sequence diagram source, beginning with the
+line <code>sequenceDiagram</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">backend</span><span class="o">.</span><span class="n">print_sequence_diagram</span><span class="p">()</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.send" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">send</span>
+
+
+<a href="#pychor.choreography.LocalBackend.send" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">send</span><span class="p">(</span><span class="n">party_from</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">party_to</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Record a local send and add the destination to the value owners.</p>
+<p>The value is appended to the destination party's view and an edge is
+added to the sequence diagram. Values whose string form exceeds ten
+characters are truncated with an ellipsis in the diagram only; the value
+delivered to the destination is never truncated.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.locally" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">locally</span>
+
+
+<a href="#pychor.choreography.LocalBackend.locally" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">locally</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Evaluate <code>f</code> on the raw values of co-located arguments.</p>
+<p>The result is owned by the intersection of the owner sets of the located
+arguments. Plain Python scalars among the arguments contribute no
+ownership constraint.</p>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the located arguments have no owner in common.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.unwrap" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unwrap</span>
+
+
+<a href="#pychor.choreography.LocalBackend.unwrap" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unwrap</span><span class="p">(</span><span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Party</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return a raw value when all requested parties own it.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The underlying value, or <code>None</code> if any requested party is not an
+owner.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.unlist" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unlist</span>
+
+
+<a href="#pychor.choreography.LocalBackend.unlist" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unlist</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located list of <code>length</code> items into that many located values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.untup" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">untup</span>
+
+
+<a href="#pychor.choreography.LocalBackend.untup" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">untup</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located tuple of <code>length</code> items into that many located values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.undict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">undict</span>
+
+
+<a href="#pychor.choreography.LocalBackend.undict" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">undict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located dict into a dict of located values, one per key.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.emit_to_sequence" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">emit_to_sequence</span>
+
+
+<a href="#pychor.choreography.LocalBackend.emit_to_sequence" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">emit_to_sequence</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Append a line to the backend's Mermaid sequence diagram.</p>
+<p>Use this to add Mermaid directives of your own — notes, activations, or
+participant declarations — alongside the edges <code>send</code> records.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>string</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>One line of Mermaid <code>sequenceDiagram</code> source, without a
+trailing newline.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.choreography.LocalBackend.print_sequence_diagram" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">print_sequence_diagram</span>
+
+
+<a href="#pychor.choreography.LocalBackend.print_sequence_diagram" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">print_sequence_diagram</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Print the Mermaid sequence diagram recorded so far.</p>
+<p>The diagram is also available as <code>uml</code> if you would rather write it to a
+file or embed it in Markdown. For the choreography in
+<code>examples/protocol_simple.py</code>, this prints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sequenceDiagram
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>party1 -&gt;&gt; party2 : 5
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>party2 -&gt;&gt; party1 : 11
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.tcp_backend.TCPBackend" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">TCPBackend</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="            ChoreographyBackend (pychor.choreography.ChoreographyBackend)" href="#pychor.choreography.ChoreographyBackend">ChoreographyBackend</a></code></p>
+
+
+
+        <p>Run one party of a choreography over TCP.</p>
+<p>This backend does not fork. Each party should run the same choreography
+program in a separate Python process, passing its local party as <code>me</code> and a
+shared address map for all parties.</p>
+<p>Every process must agree on the <code>parties</code> list <em>and its order</em>, because the
+order determines which side of each connection dials and which listens.
+Entering the context establishes a full mesh between all parties and blocks
+until it is complete, so the processes may be started in any order as long
+as they all start within <code>connect_timeout</code>.</p>
+<p>Only this process's own party's values are materialized: <code>constant</code> and
+<code>locally</code> produce <code>None</code> for values this party does not own, and <code>send</code>
+transfers the real value to the destination process. See the module
+documentation for what that means for control flow.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.tcp_backend.TCPBackend.party">party</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The party this process is playing, as passed in <code>me</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.tcp_backend.TCPBackend.party_index">party_index</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>That party's position in <code>parties</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.tcp_backend.TCPBackend.addresses">addresses</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The validated address map.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pychor.tcp_backend.TCPBackend.streams">streams</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>One <code>ObjectStream</code> per remote party, valid inside the context.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parties</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>All parties in the choreography, in an order every process
+agrees on. Names must be unique.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>me</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The party this process plays. Must appear in <code>parties</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>addresses</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Mapping">Mapping</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>, <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="int">int</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maps every party to the <code>(host, port)</code> its process listens
+on. Must cover exactly <code>parties</code> — no missing and no unknown
+parties. Each party binds its own entry, so the hosts must be
+addresses the corresponding process can bind and the others can
+reach.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>connect_timeout</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Seconds to spend establishing the mesh before raising
+<code>TimeoutError</code>. This bounds the whole setup, so it doubles as the
+window in which every party's process must have started.</p>
+              </div>
+            </td>
+            <td>
+                  <code>10.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>me</code> is not a <code>Party</code>, or <code>addresses</code> is malformed.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>me</code> is not part of <code>parties</code>, or <code>addresses</code> does not
+cover exactly <code>parties</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>Run this once per party, changing only <code>me</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">addresses</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">alice</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;10.0.0.1&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">bob</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;10.0.0.2&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">TCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">],</span> <span class="n">me</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">addresses</span><span class="o">=</span><span class="n">addresses</span><span class="p">):</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.__enter__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">__enter__</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.__enter__" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__enter__</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Establish the party mesh, then become the active backend.</p>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TimeoutError">TimeoutError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the mesh is not complete within <code>connect_timeout</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.__exit__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">__exit__</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.__exit__" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__exit__</span><span class="p">(</span><span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Close every connection, then stand down as the active backend.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.constant" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">constant</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.constant" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">constant</span><span class="p">(</span><span class="n">party</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a located value, materialized only in its owning process.</p>
+<p>Every process creates a located value with the same owner set, but only
+the process playing <code>party</code> stores <code>v</code>; the others store <code>None</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>party</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The owning party.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>v</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value, which is ignored in processes other than <code>party</code>'s.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A located value owned by <code>party</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>party</code> is not part of this backend.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.send" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">send</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.send" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">send</span><span class="p">(</span><span class="n">party_from</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">party_to</span><span class="p">:</span> <span class="n">Party</span><span class="p">,</span> <span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Send a located value from one party process to another.</p>
+<p>This is a synchronization point between exactly two processes: the
+sender writes the value to its stream and the receiver blocks until it
+arrives. Every process — including uninvolved ones — adds <code>party_to</code> to
+the owner set, so all processes keep identical ownership information.</p>
+<p>A send from a party to itself moves no data.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>party_from</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The sending party, which must already own <code>lv</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>party_to</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The receiving party.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>lv</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The located value to send. The receiving process fills in its
+<code>val</code> in place.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>note</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Accepted for interface compatibility with <code>LocalBackend</code>;
+these backends draw no diagram, so it is unused.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.locally" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">locally</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.locally" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">locally</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocatedVal</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Evaluate <code>f</code> in every process that can observe all located inputs.</p>
+<p>The owner set of the result is computed identically in every process,
+but <code>f</code> itself runs only where the local party is one of those owners.
+Elsewhere the call is skipped and the result holds <code>None</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>f</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An ordinary Python function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>*args</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Located values, plain scalars, or containers of those.</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Keyword arguments, handled the same way.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            LocatedVal
+
+
+  
+      dataclass
+   (pychor.choreography.LocatedVal)" href="#pychor.choreography.LocatedVal">LocatedVal</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A located value owned by the parties that could see every located
+input.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AssertionError">AssertionError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the located arguments have no owner in common.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.unwrap" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unwrap</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.unwrap" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unwrap</span><span class="p">(</span><span class="n">lv</span><span class="p">:</span> <span class="n">LocatedVal</span><span class="p">,</span> <span class="n">parties</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Party</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return this process's raw value when it belongs to <code>parties</code>.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The underlying value, or <code>None</code> if the requested parties are not all
+owners or if this process's party is not among them.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.unlist" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">unlist</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.unlist" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">unlist</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located list, using <code>None</code> placeholders where unowned.</p>
+<p>Non-owning processes have no list to split, so they produce <code>length</code>
+located values holding <code>None</code> — keeping the structure, and therefore the
+control flow, identical in every process.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.untup" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">untup</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.untup" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">untup</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located tuple, using <code>None</code> placeholders where unowned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.TCPBackend.undict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">undict</span>
+
+
+<a href="#pychor.tcp_backend.TCPBackend.undict" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">undict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a located dict, using <code>None</code> placeholders where unowned.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.tcp_backend.ForkingTCPBackend" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ForkingTCPBackend</span>
+
+
+<a href="#pychor.tcp_backend.ForkingTCPBackend" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Run all parties as forked local processes connected by TCP.</p>
+<p>This is the testing counterpart to <code>TCPBackend</code>: it gives a choreography
+genuine one-party-per-process execution without any deployment, so it
+catches protocols that only work because <code>LocalBackend</code> happens to hold
+every party's data in one place.</p>
+<p>Entering the context forks one child per party after the first — the parent
+plays <code>parties[0]</code> — and each process then enters a <code>TCPBackend</code> for its own
+party. Parties are assigned deterministic localhost ports by their order in
+<code>parties</code>: the first party uses <code>base_port</code>, the second uses
+<code>base_port + 1</code>, and so on.</p>
+<p>Two details are worth knowing. First, this class is a context-manager
+wrapper rather than a <code>ChoreographyBackend</code> subclass, and <code>__enter__</code>
+returns the inner <code>TCPBackend</code>; so <code>with ForkingTCPBackend(...) as b</code> binds
+<code>b</code> to that backend, whose <code>views</code> contain only the local party's messages.
+Second, the code inside the <code>with</code> block runs once per party, in different
+processes — so its output is interleaved, and side effects such as writing
+files happen once per party.</p>
+<p>On a clean exit each child flushes its output and exits immediately, while
+the parent waits for all children and raises <code>RuntimeError</code> if any of them
+failed. A child's traceback appears on stderr as usual.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parties</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="            Party
+
+
+  
+      dataclass
+   (pychor.choreography.Party)" href="#pychor.choreography.Party">Party</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>All parties in the choreography. Order fixes the port
+assignment and decides which party the parent process plays.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>host</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Address every party binds and connects to.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;127.0.0.1&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base_port</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Port of the first party; party <em>i</em> uses <code>base_port + i</code>.
+Concurrent runs need non-overlapping windows —
+the test suite gives each example its own 100-port range.</p>
+              </div>
+            </td>
+            <td>
+                  <code>10000</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>connect_timeout</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Seconds to spend establishing the mesh before raising
+<code>TimeoutError</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>10.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="RuntimeError">RuntimeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>On entry, if the platform has no <code>os.fork</code>; on exit, if a
+child process failed.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">ForkingTCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">],</span> <span class="n">base_port</span><span class="o">=</span><span class="mi">10100</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.ForkingTCPBackend.__enter__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">__enter__</span>
+
+
+<a href="#pychor.tcp_backend.ForkingTCPBackend.__enter__" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__enter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TCPBackend</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Fork one process per party and enter a <code>TCPBackend</code> in each.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            TCPBackend (pychor.tcp_backend.TCPBackend)" href="#pychor.tcp_backend.TCPBackend">TCPBackend</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The inner <code>TCPBackend</code> for this process's party — not this wrapper.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="RuntimeError">RuntimeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the platform does not provide <code>os.fork</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TimeoutError">TimeoutError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the party mesh cannot be established.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.tcp_backend.ForkingTCPBackend.__exit__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">__exit__</span>
+
+
+<a href="#pychor.tcp_backend.ForkingTCPBackend.__exit__" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__exit__</span><span class="p">(</span><span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Tear down this process's backend and reap the forked children.</p>
+<p>In a child, this never returns on a clean exit: the child flushes its
+streams and exits so that it does not continue running the rest of the
+enclosing program. In the parent, it waits for every child and surfaces
+their failures.</p>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="RuntimeError">RuntimeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>In the parent, if a child exited non-zero and no
+exception is already propagating.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="transport">Transport<a class="headerlink" href="#transport" title="Permanent link">&para;</a></h2>
+<p>The wire format used by the TCP backends. Choreographies do not use this
+directly; it is documented for anyone implementing a backend of their own or
+auditing what travels over the network.</p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="pychor.object_stream.ObjectStream" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ObjectStream</span>
+
+
+<a href="#pychor.object_stream.ObjectStream" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>A bidirectional stream of pickled Python objects over one socket.</p>
+<p>Each object is framed as a 4-byte big-endian unsigned length followed by
+that many bytes of pickle data. Writes are flushed immediately, so a
+<code>put_obj</code> on one side unblocks a <code>get_obj</code> on the other without further
+prompting.</p>
+<p>The stream is not internally synchronized: a single stream should be used by
+one thread at a time. The TCP backends satisfy this by giving each pair of
+parties its own stream and doing all sends from the choreography's single
+thread of control.</p>
+<p>Instances can be used as context managers, and close themselves when
+garbage collected.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>sock</code>
+            </td>
+            <td>
+                  <code><span title="socket.socket">socket</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A connected stream socket. The stream takes ownership of it and
+closes it in <code>close</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">ObjectStream</span><span class="p">(</span><span class="n">sock</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">stream</span><span class="o">.</span><span class="n">put_obj</span><span class="p">({</span><span class="s2">&quot;share&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">})</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">reply</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">get_obj</span><span class="p">()</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.object_stream.ObjectStream.get_obj" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_obj</span>
+
+
+<a href="#pychor.object_stream.ObjectStream.get_obj" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_obj</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Read the next object from the stream, blocking until it arrives.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The unpickled object, or <code>None</code> if the peer closed the connection
+before sending another frame. Note that a legitimately sent <code>None</code>
+is indistinguishable from end-of-stream.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.object_stream.ObjectStream.put_obj" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">put_obj</span>
+
+
+<a href="#pychor.object_stream.ObjectStream.put_obj" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">put_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Write one object to the stream and flush it.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>obj</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Any picklable object. Objects of a class defined in the
+choreography are fine as long as both processes can import that
+class, which is automatic when every party runs the same
+program.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="pickle.PicklingError">PicklingError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>obj</code> cannot be pickled.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pychor.object_stream.ObjectStream.close" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">close</span>
+
+
+<a href="#pychor.object_stream.ObjectStream.close" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">close</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Close the reader, the writer, and the underlying socket.</p>
+<p>Closing twice is harmless.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

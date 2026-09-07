@@ -1,0 +1,1097 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Library-based choreographic programming for Python">
+      
+      
+      
+        <link rel="canonical" href="https://uvm-plaid.github.io/pychor/backends/">
+      
+      
+        <link rel="prev" href="../concepts/">
+      
+      
+        <link rel="next" href="../examples/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Backends - PyChor</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backends" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyChor" class="md-header__button md-logo" aria-label="PyChor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyChor
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Backends
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/uvm-plaid/pychor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    uvm-plaid/pychor
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyChor" class="md-nav__button md-logo" aria-label="PyChor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyChor
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/uvm-plaid/pychor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    uvm-plaid/pychor
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backends
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-backend-agnostic-choreographies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing backend-agnostic choreographies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#localbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LocalBackend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forkingtcpbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ForkingTCPBackend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-a-custom-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing a custom backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-backend-agnostic-choreographies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing backend-agnostic choreographies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#localbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LocalBackend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forkingtcpbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ForkingTCPBackend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCPBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TCPBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-a-custom-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing a custom backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="backends">Backends<a class="headerlink" href="#backends" title="Permanent link">&para;</a></h1>
+<p>A choreography says <em>what</em> a protocol does; a backend decides <em>how</em> it runs. The
+choreography itself never names a backend, so the same protocol code runs
+unchanged in a single process, across forked local processes, or across
+machines — you choose by picking which context manager to enter.</p>
+<h2 id="choosing-a-backend">Choosing a backend<a class="headerlink" href="#choosing-a-backend" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>LocalBackend</code></th>
+<th><code>ForkingTCPBackend</code></th>
+<th><code>TCPBackend</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Processes</td>
+<td>1, playing every party</td>
+<td>one per party, forked</td>
+<td>one per party, launched by you</td>
+</tr>
+<tr>
+<td>Real network</td>
+<td>no</td>
+<td>loopback TCP</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>anywhere</td>
+<td>Unix (needs <code>os.fork</code>)</td>
+<td>anywhere</td>
+</tr>
+<tr>
+<td>Sequence diagram</td>
+<td>yes</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td>All parties' views readable</td>
+<td>yes</td>
+<td>no, only the local party's</td>
+<td>no, only the local party's</td>
+</tr>
+<tr>
+<td>Catches illegal reads</td>
+<td>no</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Use it for</td>
+<td>design, teaching, tests, security experiments</td>
+<td>checking a protocol is genuinely distributable</td>
+<td>deployment</td>
+</tr>
+</tbody>
+</table>
+<p>The progression is the intended workflow. Design a protocol under
+<code>LocalBackend</code>, where you can print a sequence diagram and inspect every
+party's view at once. Then run it under <code>ForkingTCPBackend</code> to prove it really
+executes one-party-per-process — <code>LocalBackend</code> cannot catch a choreography that
+reads a value it does not own, because in one process the value is always there.
+Deploy with <code>TCPBackend</code>.</p>
+<h2 id="writing-backend-agnostic-choreographies">Writing backend-agnostic choreographies<a class="headerlink" href="#writing-backend-agnostic-choreographies" title="Permanent link">&para;</a></h2>
+<p>Take the backend as a parameter rather than hard-coding it, and a protocol
+becomes runnable under all three:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">sum_protocol</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">parties</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">with</span> <span class="n">backend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">)</span> <span class="k">as</span> <span class="n">b</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="o">...</span>
+</code></pre></div>
+<p>The bundled examples do this by selecting the backend from the environment.
+<code>examples/example_backend.py</code> is the whole mechanism:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">os</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">pychor</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">def</span> <span class="nf">backend</span><span class="p">(</span><span class="n">parties</span><span class="p">):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">backend_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYCHOR_BACKEND&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="k">return</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;forking_tcp&#39;</span><span class="p">:</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="n">base_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYCHOR_TCP_BASE_PORT&#39;</span><span class="p">,</span> <span class="s1">&#39;10000&#39;</span><span class="p">))</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="k">return</span> <span class="n">pychor</span><span class="o">.</span><span class="n">ForkingTCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">,</span> <span class="n">base_port</span><span class="o">=</span><span class="n">base_port</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;tcp&#39;</span><span class="p">:</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="k">return</span> <span class="n">_tcp_backend</span><span class="p">(</span><span class="n">parties</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p>Every example then writes <code>from example_backend import backend</code> and
+<code>with backend(parties=[...])</code>, so the test suite can run every example under
+two different backends without editing a line of protocol code.</p>
+<p>The variables it reads:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PYCHOR_BACKEND</code></td>
+<td><code>local</code> (default), <code>forking_tcp</code>, or <code>tcp</code>.</td>
+</tr>
+<tr>
+<td><code>PYCHOR_TCP_BASE_PORT</code></td>
+<td>For <code>forking_tcp</code>: port of the first party. Default <code>10000</code>.</td>
+</tr>
+<tr>
+<td><code>PYCHOR_TCP_ME</code></td>
+<td>For <code>tcp</code>: the name of the party this process plays. Required.</td>
+</tr>
+<tr>
+<td><code>PYCHOR_TCP_ADDRESSES</code></td>
+<td>For <code>tcp</code>: <code>party=host:port</code> entries separated by commas, covering every party. Required.</td>
+</tr>
+<tr>
+<td><code>PYCHOR_TCP_CONNECT_TIMEOUT</code></td>
+<td>Seconds to wait for the party mesh. Default <code>10.0</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="localbackend"><code>LocalBackend</code><a class="headerlink" href="#localbackend" title="Permanent link">&para;</a></h2>
+<p><code>LocalBackend</code> runs the entire choreography in the calling process, playing
+every party itself.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">views</span><span class="p">[</span><span class="n">bob</span><span class="p">])</span>          <span class="c1"># [5]</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">backend</span><span class="o">.</span><span class="n">print_sequence_diagram</span><span class="p">()</span>
+</code></pre></div>
+<p>Because one process holds everything, this backend can observe the protocol as a
+whole. Two capabilities follow from that, and neither is available from the TCP
+backends:</p>
+<ul>
+<li><strong>Sequence diagrams.</strong> Every send is recorded as Mermaid source in <code>uml</code>. See
+  <a href="../concepts/#sequence-diagrams">Sequence diagrams</a>.</li>
+<li><strong>All parties' views.</strong> <code>backend.views</code> is populated for every party, which is
+  what makes executable security experiments possible. See
+  <a href="../concepts/#views-and-security-proofs">Views and security proofs</a>.</li>
+</ul>
+<p>The cost of that convenience is fidelity: nothing is actually distributed, so a
+choreography that reads a value belonging to someone else still finds a real
+value in memory and runs happily. Treat a passing <code>LocalBackend</code> run as evidence
+that the protocol computes the right answer, not that it is executable.</p>
+<h2 id="forkingtcpbackend"><code>ForkingTCPBackend</code><a class="headerlink" href="#forkingtcpbackend" title="Permanent link">&para;</a></h2>
+<p><code>ForkingTCPBackend</code> is the bridge between design and deployment. It forks one
+process per party on the local machine and connects them with <code>TCPBackend</code>, so
+you get real one-party-per-process execution with no setup:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">ForkingTCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">],</span> <span class="n">base_port</span><span class="o">=</span><span class="mi">10100</span><span class="p">):</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+</code></pre></div>
+<p>Ports are assigned by position in <code>parties</code>: the first party listens on
+<code>base_port</code>, the second on <code>base_port + 1</code>, and so on. Concurrent runs therefore
+need non-overlapping windows — the test suite's <code>port_for</code> helper in
+<code>tests/conftest.py</code> gives each example its own 100-port range, offset per
+<code>pytest-xdist</code> worker so parallel runs stay disjoint.</p>
+<p>Three behaviors are worth knowing before you use it:</p>
+<ul>
+<li><strong>The body runs once per party, in different processes.</strong> Output from the
+  parties interleaves, and a side effect such as writing a file happens once per
+  party. Anything you want to happen exactly once must be guarded by the party
+  it belongs to.</li>
+<li><strong><code>__enter__</code> returns the inner <code>TCPBackend</code>.</strong> In
+  <code>with pychor.ForkingTCPBackend(...) as b</code>, <code>b</code> is a <code>TCPBackend</code> for <em>this</em>
+  process's party, so <code>b.views</code> holds only that party's messages.</li>
+<li><strong>Child failures surface in the parent.</strong> The parent process plays
+  <code>parties[0]</code>, waits for every child on exit, and raises <code>RuntimeError</code> if any
+  exited non-zero; the child's traceback appears on stderr as usual. This is
+  what lets the test suite treat a zero exit status as a pass.</li>
+</ul>
+<p>It requires <code>os.fork</code>, so it does not run on Windows.</p>
+<h2 id="tcpbackend"><code>TCPBackend</code><a class="headerlink" href="#tcpbackend" title="Permanent link">&para;</a></h2>
+<p><code>TCPBackend</code> is the deployment backend. It does not fork: you launch one process
+per party, each of which constructs the backend with its own party as <code>me</code> and
+an address map covering everyone.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">sys</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span> <span class="nn">pychor</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">alice</span> <span class="o">=</span> <span class="n">pychor</span><span class="o">.</span><span class="n">Party</span><span class="p">(</span><span class="s1">&#39;alice&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">bob</span> <span class="o">=</span> <span class="n">pychor</span><span class="o">.</span><span class="n">Party</span><span class="p">(</span><span class="s1">&#39;bob&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">PARTIES</span> <span class="o">=</span> <span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">ADDRESSES</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">alice</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;10.0.0.1&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">bob</span><span class="p">:</span>   <span class="p">(</span><span class="s1">&#39;10.0.0.2&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PARTIES</span><span class="p">}[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">TCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">PARTIES</span><span class="p">,</span> <span class="n">me</span><span class="o">=</span><span class="n">me</span><span class="p">,</span> <span class="n">addresses</span><span class="o">=</span><span class="n">ADDRESSES</span><span class="p">):</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">y</span> <span class="o">=</span> <span class="p">((</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">bob</span><span class="p">)(</span><span class="n">x</span><span class="o">.</span><span class="n">only</span><span class="p">(</span><span class="n">bob</span><span class="p">))</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="n">y</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">bob</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">alice</span><span class="p">)</span>
+</code></pre></div>
+<p>Run the <em>same file</em> on each host:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">On 10.0.0.1</label><label for="__tabbed_1_2">On 10.0.0.2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>protocol.py<span class="w"> </span>alice
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>protocol.py<span class="w"> </span>bob
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Three requirements come with this backend:</p>
+<p><strong>Every process must agree on <code>parties</code> and on its order.</strong> The order breaks the
+symmetry of connection setup: each party binds its own address and accepts one
+connection from every <em>lower</em>-indexed party, then dials every <em>higher</em>-indexed
+party, sending its index as a handshake. If two processes disagree about the
+order, they will both dial or both listen and never connect.</p>
+<p><strong>Processes may start in any order, but all within <code>connect_timeout</code>.</strong> Entering
+the context blocks until the full mesh is up. Dialing retries every 50 ms, so a
+party that starts first simply waits. If the mesh is not complete within
+<code>connect_timeout</code> seconds (default 10), setup raises <code>TimeoutError</code> naming the
+party it was waiting for. Raise it for a staggered rollout.</p>
+<p><strong><code>addresses</code> must cover exactly the party set.</strong> A missing or unknown party
+raises <code>ValueError</code> at construction, and a malformed entry raises <code>TypeError</code> —
+before any socket is opened. Each party binds its own entry, so those hosts must
+be bindable locally and reachable remotely, with the ports open.</p>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<p>Both TCP backends move values as pickled Python objects, and unpickling
+executes arbitrary code chosen by the sender. There is no authentication and no
+encryption: PyChor does not verify that the process on the other end is the
+party it claims to be, and message contents travel in the clear.</p>
+<p>Run a deployment on a trusted network, or inside a tunnel — WireGuard, an SSH
+forward, or mutually authenticated TLS — that supplies both properties. Note
+that this is a property of the <em>transport</em>, not of the protocols: a protocol
+like oblivious transfer protects its inputs from the other party, but the
+channel still needs protecting from everyone else.</p>
+<h2 id="writing-a-custom-backend">Writing a custom backend<a class="headerlink" href="#writing-a-custom-backend" title="Permanent link">&para;</a></h2>
+<p>A backend is a context manager that decides what locating, computing, and
+sending mean. Subclass <code>ChoreographyBackend</code> and implement seven methods:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>constant(party, v)</code></td>
+<td>Produce a <code>LocatedVal</code> owned by <code>party</code>.</td>
+</tr>
+<tr>
+<td><code>send(party_from, party_to, lv, note)</code></td>
+<td>Communicate, add <code>party_to</code> to <code>lv.parties</code>, and append the value to <code>views[party_to]</code>.</td>
+</tr>
+<tr>
+<td><code>locally(f, *args, **kwargs)</code></td>
+<td>Evaluate <code>f</code> at the intersection of its located arguments' owners, and return a value owned by exactly that intersection.</td>
+</tr>
+<tr>
+<td><code>unwrap(lv, parties)</code></td>
+<td>Return <code>lv</code>'s raw value if <code>parties</code> may see it, else <code>None</code>.</td>
+</tr>
+<tr>
+<td><code>unlist(ls, length)</code></td>
+<td>Split a located list into <code>length</code> located values.</td>
+</tr>
+<tr>
+<td><code>untup(ls, length)</code></td>
+<td>Split a located tuple into <code>length</code> located values.</td>
+</tr>
+<tr>
+<td><code>undict(d, keys)</code></td>
+<td>Split a located dict into a dict of located values.</td>
+</tr>
+</tbody>
+</table>
+<p><code>ChoreographyBackend.__init__</code> validates the party list and sets up <code>parties</code>,
+<code>party_set</code>, and <code>views</code> for you, and <code>__enter__</code>/<code>__exit__</code> install and clear
+the active-backend global. If you override either, call <code>super()</code> — otherwise
+nothing in the choreography will find your backend.</p>
+<p>Two shortcuts are worth taking. <code>pychor.choreography.get_val</code> already
+implements the argument walk and owner-set intersection that <code>locally</code> needs,
+so a new backend usually only has to decide whether to <em>run</em> <code>f</code> after calling
+it. And the base class's methods are stubs rather than abstract, so a partial
+backend fails by silently returning <code>None</code> instead of raising — implement all
+seven.</p>
+<p>Use <code>LocalBackend</code> as the reference implementation for the semantics, and
+<code>TCPBackend</code> for the pattern of a backend where each process holds only part of
+the state.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>ForkingTCPBackend</code> is deliberately <em>not</em> a <code>ChoreographyBackend</code> subclass.
+It is a wrapper that forks and then delegates to a real backend, which is a
+good model to follow for a backend that manages processes rather than
+execution semantics.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

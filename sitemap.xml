@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/api/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/backends/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/concepts/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/examples/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/installation/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/testing/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://uvm-plaid.github.io/pychor/tutorial/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+</urlset>
