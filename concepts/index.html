@@ -736,12 +736,13 @@
 <p>This page explains how PyChor actually executes a choreography. The
 <a href="../tutorial/">tutorial</a> shows the syntax; this page covers the rules that
 decide where each computation runs and what each process knows, which is what
-you need in order to move a protocol from <code>LocalBackend</code> to a real deployment.</p>
+you need in order to move a protocol from <code>SimulationBackend</code> to a real
+deployment.</p>
 <h2 id="located-values">Located values<a class="headerlink" href="#located-values" title="Permanent link">&para;</a></h2>
 <p>Every value in a choreography carries the set of parties that can see it. That
 pairing is a <code>LocatedVal</code>: <code>val</code> is the underlying Python value and <code>parties</code> is
 its owner set.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">SimulationBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>          <span class="c1"># 5@{alice}</span>
 </code></pre></div>
@@ -762,7 +763,7 @@ section.</p>
 <p>A local computation runs at the parties that own <strong>every</strong> one of its located
 inputs — the intersection of their owner sets — and its result is located at
 exactly those parties.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">SimulationBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">]):</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>                   <span class="c1"># {alice}</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">y</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">@</span> <span class="n">bob</span>                     <span class="c1"># {bob}</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>     <span class="c1"># x is now {alice, bob}</span>
@@ -818,7 +819,7 @@ sender blocks on a write nobody reads, or the receiver blocks forever on a read.
 To make a value available for a decision, send it to the parties that need to
 decide.</p>
 <div class="admonition note">
-<p class="admonition-title"><code>LocalBackend</code> will not catch this</p>
+<p class="admonition-title"><code>SimulationBackend</code> will not catch this</p>
 <p>A single process plays every party, so every value is genuinely present in
 memory and a data-dependent branch simply works. Running the protocol under
 <code>ForkingTCPBackend</code> is what surfaces the problem — this is the main reason
@@ -871,10 +872,10 @@ follow:</p>
 <p>Re-entering a backend gives a fresh run with empty views, which is how
 <code>examples/protocol_sum.py</code> samples a protocol repeatedly.</p>
 <h2 id="sequence-diagrams">Sequence diagrams<a class="headerlink" href="#sequence-diagrams" title="Permanent link">&para;</a></h2>
-<p><code>LocalBackend</code> records every send as it happens and accumulates a
+<p><code>SimulationBackend</code> records every send as it happens and accumulates a
 <a href="https://mermaid.js.org/">Mermaid</a> sequence diagram in its <code>uml</code> attribute.
 <code>print_sequence_diagram()</code> prints it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">SimulationBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">p1</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">z</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">@</span> <span class="n">p2</span>
@@ -944,7 +945,7 @@ is empirical evidence for the security argument, and a disagreement points at
 the step of the protocol that leaks.</p>
 <p>Under a TCP backend, each process can only see its own party's view, since the
 other parties' messages never arrive in that process. Collecting all views at
-once is a <code>LocalBackend</code> capability.</p>
+once is a <code>SimulationBackend</code> capability.</p>
 
 
 

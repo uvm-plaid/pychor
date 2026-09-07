@@ -701,9 +701,9 @@ from a checkout:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[examples,test]&quot;</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>pytest
 </code></pre></div>
-<p><code>pytest</code> runs every example under the <code>local</code> and <code>forking_tcp</code> backends, plus
-the tests for the library itself; <code>pytest --runslow</code> adds the long statistical
-run and the multi-process deployment tests. See <a href="../testing/">Testing</a> for what
+<p><code>pytest</code> runs every example under the <code>simulation</code> and <code>forking_tcp</code> backends,
+plus the tests for the library itself; <code>pytest --runslow</code> adds the long
+statistical run and the multi-process deployment tests. See <a href="../testing/">Testing</a> for what
 the suite covers and how to select parts of it.</p>
 <h2 id="platform-requirements">Platform requirements<a class="headerlink" href="#platform-requirements" title="Permanent link">&para;</a></h2>
 <p>The backends differ in what they ask of the platform:</p>
@@ -716,7 +716,7 @@ the suite covers and how to select parts of it.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>LocalBackend</code></td>
+<td><code>SimulationBackend</code></td>
 <td>None. Runs anywhere Python runs.</td>
 </tr>
 <tr>

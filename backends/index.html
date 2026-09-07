@@ -454,10 +454,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#localbackend" class="md-nav__link">
+  <a href="#simulationbackend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LocalBackend
+        SimulationBackend
       
     </span>
   </a>
@@ -652,10 +652,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#localbackend" class="md-nav__link">
+  <a href="#simulationbackend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LocalBackend
+        SimulationBackend
       
     </span>
   </a>
@@ -742,7 +742,7 @@ machines — you choose by picking which context manager to enter.</p>
 <thead>
 <tr>
 <th></th>
-<th><code>LocalBackend</code></th>
+<th><code>SimulationBackend</code></th>
 <th><code>ForkingTCPBackend</code></th>
 <th><code>TCPBackend</code></th>
 </tr>
@@ -793,10 +793,11 @@ machines — you choose by picking which context manager to enter.</p>
 </tbody>
 </table>
 <p>The progression is the intended workflow. Design a protocol under
-<code>LocalBackend</code>, where you can print a sequence diagram and inspect every
+<code>SimulationBackend</code>, where you can print a sequence diagram and inspect every
 party's view at once. Then run it under <code>ForkingTCPBackend</code> to prove it really
-executes one-party-per-process — <code>LocalBackend</code> cannot catch a choreography that
-reads a value it does not own, because in one process the value is always there.
+executes one-party-per-process — <code>SimulationBackend</code> cannot catch a
+choreography that reads a value it does not own, because in one process the
+value is always there.
 Deploy with <code>TCPBackend</code>.</p>
 <h2 id="writing-backend-agnostic-choreographies">Writing backend-agnostic choreographies<a class="headerlink" href="#writing-backend-agnostic-choreographies" title="Permanent link">&para;</a></h2>
 <p>Take the backend as a parameter rather than hard-coding it, and a protocol
@@ -811,10 +812,10 @@ becomes runnable under all three:</p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">pychor</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">def</span> <span class="nf">backend</span><span class="p">(</span><span class="n">parties</span><span class="p">):</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">backend_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYCHOR_BACKEND&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">backend_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYCHOR_BACKEND&#39;</span><span class="p">,</span> <span class="s1">&#39;simulation&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span><span class="p">:</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="k">return</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;simulation&#39;</span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="k">return</span> <span class="n">pychor</span><span class="o">.</span><span class="n">SimulationBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">)</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s1">&#39;forking_tcp&#39;</span><span class="p">:</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="n">base_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYCHOR_TCP_BASE_PORT&#39;</span><span class="p">,</span> <span class="s1">&#39;10000&#39;</span><span class="p">))</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="k">return</span> <span class="n">pychor</span><span class="o">.</span><span class="n">ForkingTCPBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="n">parties</span><span class="p">,</span> <span class="n">base_port</span><span class="o">=</span><span class="n">base_port</span><span class="p">)</span>
@@ -837,7 +838,7 @@ two different backends without editing a line of protocol code.</p>
 <tbody>
 <tr>
 <td><code>PYCHOR_BACKEND</code></td>
-<td><code>local</code> (default), <code>forking_tcp</code>, or <code>tcp</code>.</td>
+<td><code>simulation</code> (default), <code>forking_tcp</code>, or <code>tcp</code>.</td>
 </tr>
 <tr>
 <td><code>PYCHOR_TCP_BASE_PORT</code></td>
@@ -857,10 +858,10 @@ two different backends without editing a line of protocol code.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="localbackend"><code>LocalBackend</code><a class="headerlink" href="#localbackend" title="Permanent link">&para;</a></h2>
-<p><code>LocalBackend</code> runs the entire choreography in the calling process, playing
+<h2 id="simulationbackend"><code>SimulationBackend</code><a class="headerlink" href="#simulationbackend" title="Permanent link">&para;</a></h2>
+<p><code>SimulationBackend</code> runs the entire choreography in the calling process, playing
 every party itself.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">LocalBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">with</span> <span class="n">pychor</span><span class="o">.</span><span class="n">SimulationBackend</span><span class="p">(</span><span class="n">parties</span><span class="o">=</span><span class="p">[</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">])</span> <span class="k">as</span> <span class="n">backend</span><span class="p">:</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">@</span> <span class="n">alice</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">x</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">bob</span><span class="p">)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
@@ -879,8 +880,9 @@ backends:</p>
 </ul>
 <p>The cost of that convenience is fidelity: nothing is actually distributed, so a
 choreography that reads a value belonging to someone else still finds a real
-value in memory and runs happily. Treat a passing <code>LocalBackend</code> run as evidence
-that the protocol computes the right answer, not that it is executable.</p>
+value in memory and runs happily. Treat a passing <code>SimulationBackend</code> run as
+evidence that the protocol computes the right answer, not that it is
+executable.</p>
 <h2 id="forkingtcpbackend"><code>ForkingTCPBackend</code><a class="headerlink" href="#forkingtcpbackend" title="Permanent link">&para;</a></h2>
 <p><code>ForkingTCPBackend</code> is the bridge between design and deployment. It forks one
 process per party on the local machine and connects them with <code>TCPBackend</code>, so
@@ -1022,7 +1024,7 @@ so a new backend usually only has to decide whether to <em>run</em> <code>f</cod
 it. And the base class's methods are stubs rather than abstract, so a partial
 backend fails by silently returning <code>None</code> instead of raising — implement all
 seven.</p>
-<p>Use <code>LocalBackend</code> as the reference implementation for the semantics, and
+<p>Use <code>SimulationBackend</code> as the reference implementation for the semantics, and
 <code>TCPBackend</code> for the pattern of a backend where each process holds only part of
 the state.</p>
 <div class="admonition note">
