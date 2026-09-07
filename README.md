@@ -143,6 +143,22 @@ Configure GitHub Pages for the repository to publish from the `gh-pages` branch.
 The generated `site/` directory is ignored on `main`; `mkdocs gh-deploy` builds
 the site and pushes it to `gh-pages`.
 
+## Releasing to PyPI
+
+Clear `dist/`, then build the source distribution and wheel into it:
+
+```bash
+rm -rf dist
+python -m build
+```
+
+Check the built artifacts render correctly on PyPI, then upload them:
+
+```bash
+python -m twine check dist/*
+python -m twine upload dist/*
+```
+
 ## Acknowledgments
 
 This material is based upon work supported by the National Science
